@@ -39,7 +39,7 @@
 		<beans:property name="dataSource" ref="dataSource" />
 		<beans:property name="annotatedClasses">
 			<beans:list>
-				<beans:value>spring.model.Person</beans:value>
+				<beans:value>spring.model.User</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -53,11 +53,11 @@
 		</beans:property>
 	</beans:bean>
 	
-	<beans:bean id="personDAO" class="spring.dao.PersonDAOImpl">
+	<beans:bean id="userDAO" class="spring.dao.UserDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
-	<beans:bean id="personService" class="spring.service.PersonServiceImpl">
-		<beans:property name="personDAO" ref="personDAO"></beans:property>
+	<beans:bean id="userService" class="spring.service.UserServiceImpl">
+		<beans:property name="userDAO" ref="userDAO"></beans:property>
 	</beans:bean>
 	<context:component-scan base-package="spring.controllers" />
 	<tx:annotation-driven transaction-manager="transactionManager"/>
