@@ -1,5 +1,0 @@
-package org.springooad.dao;
-
-public class SimpleJdbcDaoImpl {
-
-}

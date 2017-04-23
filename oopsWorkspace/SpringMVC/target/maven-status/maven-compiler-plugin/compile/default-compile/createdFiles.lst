@@ -3,7 +3,6 @@ spring/controllers/UserController.class
 spring/config/AppConfig.class
 spring/service/UserServiceImpl.class
 spring/dao/UserDAOImpl.class
-spring/model/Login.class
 spring/config/AppInitializer.class
 spring/service/UserService.class
 spring/model/User.class

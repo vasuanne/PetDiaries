@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<p>Welcome, ${firstName}</p>
+<p>Welcome</p>
 </body>
 </html>
