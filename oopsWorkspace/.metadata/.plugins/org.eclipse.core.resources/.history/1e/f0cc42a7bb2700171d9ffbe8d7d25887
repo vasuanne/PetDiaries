@@ -1,0 +1,10 @@
+#DB properties:
+db.driver=com.mysql.jdbc.Driver
+db.url=jdbc:mysql://52.35.39.77:3306/DB1
+db.username=adminUser
+db.password=pass1234word
+
+#Hibernate Configuration:
+hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+hibernate.show_sql=true
+entitymanager.packages.to.scan=com.sprsec.model

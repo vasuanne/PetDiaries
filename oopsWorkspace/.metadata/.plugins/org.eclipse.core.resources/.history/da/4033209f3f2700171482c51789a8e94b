@@ -1,0 +1,50 @@
+package spring.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import spring.dao.UserDAO;
+import spring.model.User;
+
+@Service
+public class PersonServiceImpl implements PersonService {
+	
+	private UserDAO personDAO;
+
+	public void setPersonDAO(UserDAO personDAO) {
+		this.personDAO = personDAO;
+	}
+
+	@Override
+	@Transactional
+	public void addPerson(User p) {
+		this.personDAO.addPerson(p);
+	}
+
+	@Override
+	@Transactional
+	public void updatePerson(User p) {
+		this.personDAO.updatePerson(p);
+	}
+
+	@Override
+	@Transactional
+	public List<User> listPersons() {
+		return this.personDAO.listPersons();
+	}
+
+	@Override
+	@Transactional
+	public User getPersonById(int id) {
+		return this.personDAO.getPersonById(id);
+	}
+
+	@Override
+	@Transactional
+	public void removePerson(int id) {
+		this.personDAO.removePerson(id);
+	}
+
+}
