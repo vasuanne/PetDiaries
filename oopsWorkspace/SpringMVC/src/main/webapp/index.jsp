@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@page isELIgnored="false" %>
+    <%@taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,7 +9,31 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2>Welcome To PetDiaries</h2>
-<p>Click here to login!<p>
+   <p>Welcome to Pet Diaries</p>
+
+
+   <form:form method = "GET" action = "/SpringMVC/login">
+         <table>
+            <tr>
+            <td>Login</td>
+               <td>
+                   <td><a href="login">Login</a>
+               </td>
+            </tr>
+         </table>  
+      </form:form>
+      
+   <form:form method = "GET" action = "/SpringMVC/redirect">
+         <table>
+            <tr>
+            <td>Don't have an account?</td>
+               <td>
+                  <!--  <input type = "submit" value = "Sign Up"/>-->
+                   <td><a href="redirect">Sign Up</a>
+               </td>
+            </tr>
+         </table>  
+      </form:form>
+
 </body>
 </html>

@@ -1,0 +1,5 @@
+0:0:0:0:0:0:0:1 - - [23/Apr/2017:01:20:29 -0600] "GET /SpringMVC/users HTTP/1.1" 200 1600 http-bio-8080-exec-1 1953
+0:0:0:0:0:0:0:1 - - [23/Apr/2017:01:20:36 -0600] "POST /SpringMVC/user/login HTTP/1.1" 200 273 http-bio-8080-exec-2 512
+0:0:0:0:0:0:0:1 - - [23/Apr/2017:01:20:49 -0600] "POST /SpringMVC/user/login HTTP/1.1" 200 273 http-bio-8080-exec-3 461
+0:0:0:0:0:0:0:1 - - [23/Apr/2017:01:20:55 -0600] "POST /SpringMVC/user/login HTTP/1.1" 302 - http-bio-8080-exec-4 499
+0:0:0:0:0:0:0:1 - - [23/Apr/2017:01:20:55 -0600] "GET /SpringMVC/invalid-login HTTP/1.1" 200 941 http-bio-8080-exec-5 8

@@ -10,4 +10,5 @@ public interface UserDAO {
 	public List<User> listUsers();
 	public User getUserById(int id);
 	public void removeUser(int id);
+	public boolean validateUser(User p);
 }

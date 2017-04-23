@@ -64,4 +64,25 @@ public class UserDAOImpl implements UserDAO {
 		logger.info("User deleted successfully, user details="+p);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean validateUser(User p)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		List<User> usersList = session.createQuery("from User").list();
+		
+		for(User p1 : usersList){
+			
+		//	System.out.println("p.getname"+p.getName()+" p1.getname"+p1.getName()+" p.getCountry"+p.getCountry() + " p1.getCountry" +p1.getCountry());
+			
+			if((p1.getName().equals(p.getName())) && 
+					(p1.getCountry().equals(p.getCountry())))
+			{
+			//	System.out.println("User DAO Impl gotcha");
+				return true;
+			}
+		}
+	//	System.out.println("User DAO Impl doesn't exist");
+		return false;
+	}
 }

@@ -17,9 +17,9 @@
 	Add a User
 </h1>
 
-<c:url var="addAction" value="/user/add" ></c:url>
+<c:url var="loginAction" value="/user/login" ></c:url>
 
-<form:form action="${addAction}" commandName="user">
+<form:form action="${loginAction}" commandName="user">
 <table>
 	<c:if test="${!empty user.name}">
 	<tr>
@@ -51,7 +51,7 @@
 			</form:label>
 		</td>
 		<td>
-			<form:input path="country" />
+			<form:input type="password" path="country" />
 		</td>
 	</tr>
 	<tr>
@@ -63,6 +63,10 @@
 			<c:if test="${empty user.name}">
 				<input type="submit"
 					value="<spring:message text="Add User"/>" />
+			</c:if>
+			<c:if test="${empty user.name}">
+				<input type="submit"
+					value="<spring:message text="Login"/>" />
 			</c:if>
 		</td>
 	</tr>

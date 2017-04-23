@@ -25,6 +25,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String listUsers(Model model) {
+		System.out.println("In listUsers");
 		model.addAttribute("user", new User());
 		model.addAttribute("listUsers", this.userService.listUsers());
 		return "user";
@@ -34,6 +35,7 @@ public class UserController {
 	@RequestMapping(value= "/user/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("user") User p){
 		
+		System.out.println("In addUsers"+p.getName() +" "+ p.getCountry());
 		if(p.getId() == 0){
 			//new user, add it
 			this.userService.addUser(p);
@@ -59,5 +61,44 @@ public class UserController {
         model.addAttribute("listUsers", this.userService.listUsers());
         return "user";
     }
-	
+    
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    public String redirect() {
+       return "redirect:signUp";
+    }
+   
+    
+    @RequestMapping(value = "/signUp", method = RequestMethod.GET)
+    public String finalPage() {
+       return "signup";
+    }
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+       return "redirect:users";
+    }
+    
+    @RequestMapping(value= "/user/login", method = RequestMethod.POST)
+	public String loginUser(@ModelAttribute("user") User p){
+    	
+   // 	System.out.println("in login");
+    	boolean retVal=this.userService.validateUser(p);
+		
+    	if(!retVal)
+    	{
+    	//	System.out.println("Doesn't exist");
+    		return "redirect:/invalid-login";
+    	}
+    	else
+    	{
+    	//	System.out.println("Exists");
+    		return "dashboard";
+    	}
+		
+	}
+   
+    @RequestMapping(value = "/invalid-login", method = RequestMethod.GET)
+    public String dispLoginError() {
+       return "loginError";
+    }
 }
