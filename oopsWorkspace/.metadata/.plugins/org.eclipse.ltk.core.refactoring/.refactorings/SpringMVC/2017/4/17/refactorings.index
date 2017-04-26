@@ -14,3 +14,19 @@
 1492908101874	Delete elements
 1492908472033	Move 'index.jsp' to 'webapp'
 1492921100431	Rename resource 'success-login.jsp'
+1492934827334	Encapsulate field 'street'
+1492934834800	Encapsulate field 'city'
+1492934842168	Encapsulate field 'phoneNumber'
+1492934848823	Encapsulate field 'zipcode'
+1492934856686	Encapsulate field 'emailAddr'
+1493055190230	Encapsulate field 'firstname'
+1493055199623	Encapsulate field 'lastname'
+1493055207513	Encapsulate field 'userType'
+1493055214115	Encapsulate field 'loginTime'
+1493056518016	Delete element
+1493057739201	Encapsulate field 'contactInfo'
+1493057841989	Encapsulate field 'user'
+1493169455576	Encapsulate field 'petName'
+1493169467563	Encapsulate field 'petBreed'
+1493171918126	Delete element
+1493232263179	Encapsulate field 'petSize'

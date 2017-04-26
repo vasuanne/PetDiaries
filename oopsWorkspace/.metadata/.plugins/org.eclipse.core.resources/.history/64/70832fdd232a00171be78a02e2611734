@@ -1,0 +1,88 @@
+package spring.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import spring.model.Pet;
+import spring.service.PetService;
+
+@Controller
+public class PetController {
+	
+	private PetService petService;
+	
+//	@Autowired(required=true)
+	//@Qualifier(value="petService")
+	public void setPetService(PetService ps){
+		this.petService = ps;
+	}
+		
+	@RequestMapping(value = "/pets", method = RequestMethod.GET)
+	public String listPets(Model model) {
+		System.out.println("In listPets");
+		model.addAttribute("pet", new Pet());
+		model.addAttribute("listPets", this.petService.listPets());
+		return "pet";
+	}
+	
+	//For add and update pet both
+	@RequestMapping(value= "/pet/add", method = RequestMethod.POST)
+	public String addPet(@ModelAttribute("pet") Pet p)
+	{
+		
+		boolean error=false;
+	
+		//if(p.getId() == 0){
+			//new pet, add it
+			error=this.petService.addPet(p);
+			
+			if(error)
+			{
+				return "invalid-petname";
+			}
+			else
+			{
+				return "register-success";
+			}
+		
+	}
+	
+	@RequestMapping("/remove/{id}")
+    public String removePet(@PathVariable("id") int id){
+		
+        this.petService.removePet(id);
+        return "redirect:/pets";
+    }
+ 
+    @RequestMapping("/edit/{id}")
+    public String editPet(@PathVariable("id") int id, Model model){
+        model.addAttribute("pet", this.petService.getPetById(id));
+        model.addAttribute("listPets", this.petService.listPets());
+        return "pet";
+    }
+    
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    public String redirect() {
+       return "redirect:signUp";
+    }
+   
+    
+    @RequestMapping(value = "/signUp", method = RequestMethod.GET)
+    public String finalPage(@ModelAttribute("pet") Pet p) {
+       return "signup";
+    }
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login() {
+       return "redirect:pets";
+    }
+  
+ 
+ 
+}

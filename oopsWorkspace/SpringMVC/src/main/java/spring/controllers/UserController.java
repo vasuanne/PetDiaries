@@ -22,7 +22,7 @@ public class UserController {
 	public void setUserService(UserService ps){
 		this.userService = ps;
 	}
-	
+		
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public String listUsers(Model model) {
 		System.out.println("In listUsers");
@@ -33,30 +33,39 @@ public class UserController {
 	
 	//For add and update user both
 	@RequestMapping(value= "/user/add", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") User p){
+	public String addUser(@ModelAttribute("user") User p)
+	{
 		
-		System.out.println("In addUsers"+p.getName() +" "+ p.getCountry());
-		if(p.getId() == 0){
+		boolean error=false;
+		System.out.println("In addUsers"+p.getUsername() +" "+ p.getPassword());
+		//if(p.getId() == 0){
 			//new user, add it
-			this.userService.addUser(p);
-		}else{
+			error=this.userService.addUser(p);
+			
+			if(error)
+			{
+				return "invalid-username";
+			}
+			else
+			{
+				return "register-success";
+			}
+		//}else{
 			//existing user, call update
-			this.userService.updateUser(p);
-		}
-		
-		return "redirect:/users";
+			//this.userService.updateUser(p);
+		//}
 		
 	}
 	
-	@RequestMapping("/remove/{id}")
-    public String removeUser(@PathVariable("id") int id){
+	@RequestMapping("/remove/{userId}")
+    public String removeUser(@PathVariable("userId") int id){
 		
         this.userService.removeUser(id);
         return "redirect:/users";
     }
  
-    @RequestMapping("/edit/{id}")
-    public String editUser(@PathVariable("id") int id, Model model){
+    @RequestMapping("/edit/{userId}")
+    public String editUser(@PathVariable("userId") int id, Model model){
         model.addAttribute("user", this.userService.getUserById(id));
         model.addAttribute("listUsers", this.userService.listUsers());
         return "user";
@@ -69,7 +78,7 @@ public class UserController {
    
     
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
-    public String finalPage() {
+    public String finalPage(@ModelAttribute("user") User p) {
        return "signup";
     }
     
@@ -79,11 +88,11 @@ public class UserController {
     }
     
     @RequestMapping(value= "/user/login", method = RequestMethod.POST)
-	public String loginUser(@ModelAttribute("user") User p){
+	public String loginUser(Model model, @ModelAttribute("user") User p){
     	
    // 	System.out.println("in login");
     	boolean retVal=this.userService.validateUser(p);
-		
+		int userId=0;
     	if(!retVal)
     	{
     	//	System.out.println("Doesn't exist");
@@ -92,11 +101,72 @@ public class UserController {
     	else
     	{
     	//	System.out.println("Exists");
-    		return "dashboard";
+    		System.out.println("User Type is" + p.getUserType());
+    		userId=p.getUserId();
+    		model.addAttribute("userId",userId);
+    		model.addAttribute("username",p.getUsername());
+    		model.addAttribute("firstName",p.getFirstName());
+
+    		if(p.getUserType()=="Admin")
+    		{
+    			return "adminDashboard";
+    		}
+    		else if((p.getUserType()).equals("Owner"))
+    		{
+    			model.addAttribute("petCount",this.userService.getPetCount(userId));
+    			model.addAttribute("contactInfo",this.userService.isContactInfoSet(userId));
+    			return "ownerDashboard";
+    		}
+    		else 
+    		{
+    			
+    			return "caretakerDashboard";
+    		}
     	}
 		
 	}
-   
+    
+    @RequestMapping(value= "/user/signup", method = RequestMethod.POST)
+  	public String signupUser(Model model, @ModelAttribute("user") User p){
+      	
+     // 	System.out.println("in login");
+    	
+    	if(p.getFirstName()=="" || p.getLastName()=="")
+    	{
+    		model.addAttribute("invalidInput","Error: First and last name cannot be empty");
+    		return "signup";
+    	}
+    	if(p.getUserType()=="")
+    	{
+    		model.addAttribute("invalidInput","Error: User role cannot be empty");
+    		return "signup";
+    	}
+    	if(p.getPassword()=="")
+    	{
+    		model.addAttribute("invalidInput","Error: Password cannot be empty");
+    		return "signup";
+    	}
+    	if(p.getUsername()=="")
+    	{
+    		model.addAttribute("invalidInput","Error: username cannot be empty");
+    		return "signup";
+    	}
+      	boolean retVal=this.userService.addUser(p);
+  		
+      	if(retVal)
+      	{
+      		model.addAttribute("invalidInput","Error: Username exists");
+      		return "signup";
+      	}
+      	else
+      	{
+      	//	System.out.println("Exists");
+      		return "register-success";
+      	}
+  		
+  	}
+      
+    
     @RequestMapping(value = "/invalid-login", method = RequestMethod.GET)
     public String dispLoginError() {
        return "loginError";

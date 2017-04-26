@@ -2,11 +2,14 @@ package spring.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import spring.model.User;
 
@@ -22,10 +25,26 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void addUser(User p) {
+	public boolean addUser(User p) {
+		boolean error=false;
 		Session session = this.sessionFactory.getCurrentSession();
-		session.persist(p);
-		logger.info("User saved successfully, User Details="+p);
+		
+		try
+		{
+			session.save(p);
+			//tx.commit();
+			System.out.println("User DAO Impl Added user without exceptions");
+		}
+		catch(Exception e)
+		{
+			session.clear();
+			System.out.println(e.getCause());
+			error=true;
+		}
+		
+		return error;
+		
+	//	logger.info("User saved successfully, User Details="+p);
 	}
 
 	@Override
@@ -75,14 +94,45 @@ public class UserDAOImpl implements UserDAO {
 			
 		//	System.out.println("p.getname"+p.getName()+" p1.getname"+p1.getName()+" p.getCountry"+p.getCountry() + " p1.getCountry" +p1.getCountry());
 			
-			if((p1.getName().equals(p.getName())) && 
-					(p1.getCountry().equals(p.getCountry())))
+			if((p1.getUsername().equals(p.getUsername())) && 
+					(p1.getPassword().equals(p.getPassword())))
 			{
 			//	System.out.println("User DAO Impl gotcha");
+				System.out.println("User Type is" + p1.getUserType());
+				p.setUserType(p1.getUserType());
+				p.setUserId(p1.getUserId());
+				p.setFirstName(p1.getFirstName());
+				p.setUsername(p1.getUsername());
 				return true;
 			}
 		}
 	//	System.out.println("User DAO Impl doesn't exist");
 		return false;
 	}
+	
+	@Override
+	public int getPetCount(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select count(*) from Pet where userId="+String.valueOf(id);
+		int count = ((Long) session.createQuery(hql).uniqueResult()).intValue();
+		return count;
+	}
+	
+	@Override
+	public boolean isContactInfoSet(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select count(userId) from ContactInfo where userId="+String.valueOf(id);
+		int count = ((Long) session.createQuery(hql).uniqueResult()).intValue();
+
+		if(count>0)
+			return true;
+		else
+			return false;
+			
+	}
+	
+	
+	
 }

@@ -40,6 +40,8 @@
 		<beans:property name="annotatedClasses">
 			<beans:list>
 				<beans:value>spring.model.User</beans:value>
+				<beans:value>spring.model.Pet</beans:value>
+				<beans:value>spring.model.ContactInfo</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">

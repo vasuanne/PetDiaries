@@ -19,8 +19,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void addUser(User p) {
-		this.userDAO.addUser(p);
+	public boolean addUser(User p) {
+		boolean error=false;
+		error=this.userDAO.addUser(p);
+		return error;
 	}
 
 	@Override
@@ -52,5 +54,19 @@ public class UserServiceImpl implements UserService {
 	public void removeUser(int id) {
 		this.userDAO.removeUser(id);
 	}
-
+	
+	@Override
+	@Transactional
+	public int getPetCount(int id)
+	{
+		return this.userDAO.getPetCount(id);
+	}
+	
+	@Override
+	@Transactional
+	public boolean isContactInfoSet(int id)
+	{
+		return this.userDAO.isContactInfoSet(id);
+	}
+	
 }
