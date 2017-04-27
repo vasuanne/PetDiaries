@@ -13,28 +13,39 @@
 	</style>
 </head>
 <body>
-<h1>
-	Add a Pet ${userId}
-</h1>
 
+<c:choose>
+    <c:when test="${addPet}">
+       <h1>Add a Pet</h1>
+        <br />
+    </c:when>    
+    <c:when test="${editPet}">
+       <h1>Edit Pet</h1>
+        <br />
+    </c:when>  
+  
+</c:choose>
+
+		
 <c:url var="addAction" value="/user/pet/add" ></c:url>
 <form:form action="${addAction}" commandName="pet">
 <table>
-	<c:if test="${!empty pet.petName}">
 	
-	</c:if>
 	<tr>
-		<td>
-			<form:label path="userId">
-				<spring:message text=""/>
-			</form:label>
-		</td>
 		<td>
 			<form:input path="userId" value="${userId}" readonly="true" size="8" type="hidden" />
 			<form:hidden path="userId" />
 		</td> 
 	</tr>
 	
+	<c:if test="${editPet}">
+	<tr>
+		<td>
+			<form:input path="petId" value="${petId}" readonly="true" size="8" type="hidden" />
+			<form:hidden path="petId" />
+		</td> 
+	</tr>
+	</c:if>	
 	<tr>
 		<td>
 			<form:label path="petName">
@@ -42,8 +53,17 @@
 			</form:label>
 		</td>
 		<td>
-			<form:input path="petName" />
-		</td> 
+		<c:choose>
+    		<c:when test="${addPet}">
+			<form:input path="petName"/>
+    		</c:when>    
+   		 	<c:when test="${editPet}">
+       		<form:input path="petName" value="${petName}"/>
+    	</c:when>  
+
+		</c:choose>
+  </td>
+		
 	</tr>
 	<tr>
 		<td>
@@ -51,12 +71,24 @@
 				<spring:message text="Pet Type"/>
 			</form:label>
 		</td>
+		
+		
 		<td>
-			<select name="petType">
-			<option> </option>
-			<option>Cat</option>
-			<option>Dog</option>
-			</select>
+		<c:choose>
+    		<c:when test="${addPet}">
+				<select name="petType">
+					<option> </option>
+					<option>Cat</option>
+					<option>Dog</option>
+				</select>
+    		</c:when>    
+   		 	<c:when test="${editPet}">
+       		<select name="petType">
+					<option value="Cat" <c:if test="${petType.equals('Cat')}">selected="selected"</c:if>>Cat</option>
+					<option value="Dog" <c:if test="${petType.equals('Dog')}">selected="selected"</c:if>>Dog</option>
+				</select>
+    	</c:when>  
+    	</c:choose>
 		</td> 
 	</tr>
 	<tr>
@@ -67,8 +99,16 @@
 			</form:label>
 		</td>
 		<td>
-			<form:input path="petBreed" />
-		</td>
+		<c:choose>
+    		<c:when test="${addPet}">
+				<form:input path="petBreed"/>
+    		</c:when>    
+   		 	<c:when test="${editPet}">
+     			 <form:input path="petBreed" value="${petBreed}"/>
+    		</c:when>  
+    	</c:choose>
+    	</td>
+	
 	</tr>
 	<tr>
 	<tr>
@@ -78,29 +118,46 @@
 			</form:label>
 		</td>
 		<td>
-			<select name="petSize">
-			<option> </option>
-			<option>Small</option>
-			<option>Medium</option>
-			<option>Large</option>
-			</select>
-		</td> 
+		<c:choose>
+    		<c:when test="${addPet}">
+				<select name="petSize">
+					<option> </option>
+					<option>Small</option>
+					<option>Medium</option>
+					<option>Large</option>
+				</select>
+    		</c:when>    
+   		 	<c:when test="${editPet}">
+       		<select name="petSize">
+					<!-- <option>${petSize} </option> -->
+					<option value="Small" <c:if test="${petSize.equals('Small')}">selected="selected"</c:if>>Small</option>
+					<option value="Medium" <c:if test="${petSize.equals('Medium')}">selected="selected"</c:if>>Medium</option>
+					<option value="Large" <c:if test="${petSize.equals('Large')}">selected="selected"</c:if>>Large</option>
+				</select>
+    		</c:when>  
+    	</c:choose>
+		</td>
 	</tr>
 	<tr>
 		<td colspan="2">
-		<button id="button1">submit</button>
-			
+		<c:if test="${addPet}">
+		<button id="button1">Add Pet</button>
+		</c:if>
 		</td>
+		<c:if test="${editPet}">
+		<input type="submit"	
+		value="<spring:message text="Edit Pet"/>" />
+		</c:if>
 	</tr>
 </table>
 
 
 </form:form>
 <c:if test="${!empty invalidInput}">
-	<p>${invalidInput}</p>
-</c:if>	
+	<p>${invalidInput}</p></c:if>
+
 <br>
-<h3>Pet List</h3>
+<h3>Your pets</h3>
 <c:if test="${!empty listPets}">
 	<table class="tg">
 	<tr>
@@ -117,8 +174,8 @@
 			<td>${pet.petType}</td>
 			<td>${pet.petBreed}</td>
 			<td>${pet.petSize}</td>
-			<td><a href="<c:url value='/user/pet/edit/${pet.petId}' />" >Edit</a></td>
-			<td><a href="<c:url value='/user/pet/remove/${pet.petId}' />" >Delete</a></td>
+			<td><a href="<c:url value='/user/pet/edit/${pet.petId}/${pet.userId}/${pet.petName}/${pet.petType}/${pet.petBreed}/${pet.petSize}'/>" >Edit</a></td>
+			<td><a href="<c:url value='/user/pet/remove/${pet.petId}/${pet.userId}' />" >Delete</a></td>
 		</tr>
 	</c:forEach>
 	</table>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.model.Pet;
 import spring.service.PetService;
@@ -25,13 +26,15 @@ public class PetController {
 	}
 		
 	@RequestMapping(value = "/user/pet", method = RequestMethod.GET)
-	public String listPets(Model model,@RequestParam("userId") int userId) {
+	public String listPets(Model model,@RequestParam("userId") int userId
+			) {
 	
 		System.out.println("In listPets");
-		
 		model.addAttribute("userId",userId);
+		model.addAttribute("addPet",true);
 		model.addAttribute("pet", new Pet());
 		model.addAttribute("listPets", this.petService.listPets());
+		
 		return "pet";
 	}
 	
@@ -41,7 +44,8 @@ public class PetController {
 	{
 		
 		boolean error=false;
-	
+		model.addAttribute("addPet",true);
+		
 		//if(p.getId() == 0){
 			//new pet, add it
 		if(p.getPetSize()=="")
@@ -65,10 +69,17 @@ public class PetController {
     		error=true;
     	}	
     	if(!error)
-    		error=this.petService.addPet(p);
+    	{
+    		if(p.getPetId()>0)
+    		{
+    			System.out.println("Pet id update");
+    			this.petService.updatePet(p);
+    		}
+    		else
+    			error=this.petService.addPet(p);
     
     		model.addAttribute("listPets", this.petService.listPets());
-			
+    	}
 			/*if(error)
 			{
 				return "invalid-petname";
@@ -86,20 +97,40 @@ public class PetController {
 			
 	}
 
-	@RequestMapping("/user/pet/remove/{petId}")
-    public String removePet(@PathVariable("petId") int petId){
+	@RequestMapping("/user/pet/remove/{petId}/{userId}")
+    public String removePet(@PathVariable("petId") int petId,
+    		@PathVariable("userId") int userId,
+    		Model model,
+    		@ModelAttribute("pet") Pet p,
+    		RedirectAttributes ra){
 		
+		System.out.println("Pet delete");
+	//	model.addAttribute("addPet",true);
         this.petService.removePet(petId);
-        return "redirect:/pets";
+        ra.addAttribute("userId",userId);
+        return "redirect:/user/pet";
     }
  
-    @RequestMapping("/user/pet/edit/{petId}")
-    public String editPet(@PathVariable("petId") int petId, Model model){
-    	System.out.println("In edit");
-        model.addAttribute("pet", this.petService.getPetById(petId));
-        model.addAttribute("listPets", this.petService.listPets());
-        return "pet";
-    }
+    @RequestMapping(value="/user/pet/edit/{petId}/{userId}/{petName}/{petType}/{petBreed}/{petSize}")
+    public String editPet(@PathVariable("petId") int petId,
+    		@PathVariable("userId") int userId, 
+    	@PathVariable("petName") String petName,
+    		@PathVariable("petType") String petType,
+    		@PathVariable("petBreed") String petBreed,
+    		@PathVariable("petSize") String petSize,
+    		Model model,
+    		@ModelAttribute("pet") Pet p)
+	    {
+	        model.addAttribute("editPet", true);
+	        model.addAttribute("listPets", this.petService.listPets());
+	        model.addAttribute("userId", userId);
+	        model.addAttribute("petName", petName);
+	    
+	        model.addAttribute("petType", petType);
+	        model.addAttribute("petBreed", petBreed);
+	        model.addAttribute("petSize", petSize);
+	        return "pet";
+	    }
     
   /*
     @RequestMapping(value = "/login", method = RequestMethod.GET)

@@ -18,7 +18,6 @@ spring/model/CaretakerProfile.class
 spring/model/Profile.class
 spring/service/OwnerProfileServiceImpl.class
 spring/service/OwnerProfileService.class
-spring/dao/PetDAOImpl.class
 spring/service/PetService.class
 spring/dao/PetDAO.class
 spring/dao/OwnerProfileDAOImpl.class

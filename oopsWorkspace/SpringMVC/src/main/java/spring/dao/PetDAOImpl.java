@@ -75,10 +75,13 @@ public class PetDAOImpl implements PetDAO {
 
 	@Override
 	public void removePet(int id) {
+
 		Session session = this.sessionFactory.getCurrentSession();
 		Pet p = (Pet) session.load(Pet.class, new Integer(id));
 		if(null != p){
+			System.out.println("DELETE DAO- Pet deleted");
 			session.delete(p);
+	
 		}
 		logger.info("Pet deleted successfully, pet details="+p);
 	}
