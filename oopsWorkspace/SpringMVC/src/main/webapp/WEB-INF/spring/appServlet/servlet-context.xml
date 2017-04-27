@@ -58,9 +58,28 @@
 	<beans:bean id="userDAO" class="spring.dao.UserDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
+	
 	<beans:bean id="userService" class="spring.service.UserServiceImpl">
 		<beans:property name="userDAO" ref="userDAO"></beans:property>
 	</beans:bean>
+	
+	<beans:bean id="ownerProfileDAO" class="spring.dao.OwnerProfileDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="ownerProfileService" class="spring.service.OwnerProfileServiceImpl">
+		<beans:property name="ownerProfileDAO" ref="ownerProfileDAO"></beans:property>
+	</beans:bean>
+	
+	
+	<beans:bean id="petDAO" class="spring.dao.PetDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="petService" class="spring.service.PetServiceImpl">
+		<beans:property name="petDAO" ref="petDAO"></beans:property>
+	</beans:bean>
+	
 	<context:component-scan base-package="spring.controllers" />
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<beans:bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">

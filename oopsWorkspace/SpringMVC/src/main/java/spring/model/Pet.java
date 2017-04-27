@@ -12,9 +12,9 @@ import javax.persistence.Table;
 public class Pet {
 	
 	@Id
-	@Column(name="id")
+	@Column(name="petId")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int petId;
 	
 	private int userId;
 	
@@ -25,6 +25,16 @@ public class Pet {
 	private String petBreed;
 	 
 	private String petSize;
+	
+	public int getPetId()
+	{
+		return this.petId;
+	}
+	
+	public void setPetId(int petId)
+	{
+		this.petId=petId; 
+	}
 	
 	public int getUserId() 
 	{

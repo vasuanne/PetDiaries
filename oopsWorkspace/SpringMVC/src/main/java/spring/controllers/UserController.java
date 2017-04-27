@@ -20,6 +20,7 @@ public class UserController {
 	@Autowired(required=true)
 	//@Qualifier(value="userService")
 	public void setUserService(UserService ps){
+		System.out.println("In user controller");
 		this.userService = ps;
 	}
 		

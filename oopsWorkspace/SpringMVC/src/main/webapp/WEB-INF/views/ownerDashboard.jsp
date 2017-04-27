@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,8 +13,8 @@
 <body>
 <p>Owner Dashboard</p>
 <p>Hi ${firstName}! </p>
-
-
+<p>${userId}</p>
+<c:url var="addPets" value="/user/pet" ></c:url>
 <c:if test="${petCount == 0 || !contactInfo}">
 <h2>Profile setting not complete. You must complete your profile to raise and accept requests.</h2>
 	<table class="tg"  border="1px">
@@ -25,7 +28,14 @@
 	<tr>
 		<td><p>Pet Information</p></td>
 		<td><p>You have 0 pets available. Please add pets.</p></td>
-		<td><p>Click here to add pet information</p></td>
+		   
+        <td>Login</td>
+        <td><form:form method = "GET" action="${addPets}" commandName="pet"><input type="hidden" name="userId" value="${userId}" />
+        <input type="submit" name="Add pet info"/>
+      	</form:form></td>
+      
+       
+
 	</tr>
 	</c:if>
 	
