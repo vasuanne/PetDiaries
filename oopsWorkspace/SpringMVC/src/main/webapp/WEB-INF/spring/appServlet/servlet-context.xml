@@ -71,6 +71,13 @@
 		<beans:property name="ownerProfileDAO" ref="ownerProfileDAO"></beans:property>
 	</beans:bean>
 	
+	<beans:bean id="contactInfoDAO" class="spring.dao.ContactInfoDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="contactInfoService" class="spring.service.ContactInfoServiceImpl">
+		<beans:property name="contactInfoDAO" ref="contactInfoDAO"></beans:property>
+	</beans:bean>
 	
 	<beans:bean id="petDAO" class="spring.dao.PetDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />

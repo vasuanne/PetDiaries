@@ -172,4 +172,42 @@ public class UserController {
     public String dispLoginError() {
        return "loginError";
     }
+    
+    @RequestMapping(value= "/user/dash", method = RequestMethod.POST)
+   	public String displayDashboard(Model model, 
+   			@ModelAttribute("pet") User u1,
+   			@ModelAttribute("contactInfo") User u2){
+    		User u=null;
+      // 	System.out.println("in login");
+    		if(u1.getUserId()>0)
+    			u = this.userService.getUserById(u1.getUserId());
+    		else if(u2.getUserId()>0)
+    			u = this.userService.getUserById(u2.getUserId());
+       	//	System.out.println("Exists");
+       		System.out.println("User Type is" + u1.getUserType());
+       		
+  
+       		int userId=u.getUserId();
+       		model.addAttribute("userId",userId);
+       		model.addAttribute("username",u.getUsername());
+       		model.addAttribute("firstName",u.getFirstName());
+
+       		if(u.getUserType()=="Admin")
+       		{
+       			return "adminDashboard";
+       		}
+       		else if((u.getUserType()).equals("Owner"))
+       		{
+       			model.addAttribute("petCount",this.userService.getPetCount(userId));
+       			model.addAttribute("contactInfo",this.userService.isContactInfoSet(userId));
+       			return "ownerDashboard";
+       		}
+       		else 
+       		{
+       			
+       			return "caretakerDashboard";
+       		}
+       	}
+   		
+   	
 }

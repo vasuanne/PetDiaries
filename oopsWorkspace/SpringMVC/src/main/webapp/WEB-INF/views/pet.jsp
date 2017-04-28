@@ -26,7 +26,7 @@
   
 </c:choose>
 
-		
+<c:url var="redirectDash" value="/user/dash" ></c:url>
 <c:url var="addAction" value="/user/pet/add" ></c:url>
 <form:form action="${addAction}" commandName="pet">
 <table>
@@ -153,6 +153,7 @@
 
 
 </form:form>
+
 <c:if test="${!empty invalidInput}">
 	<p>${invalidInput}</p></c:if>
 
@@ -177,8 +178,18 @@
 			<td><a href="<c:url value='/user/pet/edit/${pet.petId}/${pet.userId}/${pet.petName}/${pet.petType}/${pet.petBreed}/${pet.petSize}'/>" >Edit</a></td>
 			<td><a href="<c:url value='/user/pet/remove/${pet.petId}/${pet.userId}' />" >Delete</a></td>
 		</tr>
+		
 	</c:forEach>
 	</table>
 </c:if>
+ <form:form action="${redirectDash}" commandName="pet">
+		
+			<form:input path="userId" value="${userId}" readonly="true" size="8" type="hidden"/>
+		 
+			<input type="submit"	
+			value="<spring:message text="Go back to dashboard"/>" />
+</form:form>
+
+			
 </body>
 </html>

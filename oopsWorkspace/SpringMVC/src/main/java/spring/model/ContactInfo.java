@@ -15,19 +15,41 @@ import javax.persistence.Table;
 public class ContactInfo {
 	
 	@Id
-	@Column(name="userId")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(unique = true)
 	private int userId;
 	
 	private String street;
 	
 	private String city;
 
+	private String state;
+	
 	private String phoneNumber;
 	
 	private String zipcode;
 	
 	private String emailAddr;
+	
+	public int getId()
+	{
+		return id;
+	}
+	
+	public void setId(int id)
+	{
+		this.id=id;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId=userId;
+	}
 	
 	public String getStreet() {
 		return street;
@@ -67,6 +89,12 @@ public class ContactInfo {
 
 	public void setEmailAddr(String emailAddr) {
 		this.emailAddr = emailAddr;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.model.Pet;
+import spring.model.User;
 import spring.service.PetService;
 
 @Controller
@@ -114,23 +115,23 @@ public class PetController {
     @RequestMapping(value="/user/pet/edit/{petId}/{userId}/{petName}/{petType}/{petBreed}/{petSize}")
     public String editPet(@PathVariable("petId") int petId,
     		@PathVariable("userId") int userId, 
-    	@PathVariable("petName") String petName,
+    		@PathVariable("petName") String petName,
     		@PathVariable("petType") String petType,
     		@PathVariable("petBreed") String petBreed,
     		@PathVariable("petSize") String petSize,
     		Model model,
     		@ModelAttribute("pet") Pet p)
-	    {
-	        model.addAttribute("editPet", true);
-	        model.addAttribute("listPets", this.petService.listPets());
-	        model.addAttribute("userId", userId);
-	        model.addAttribute("petName", petName);
-	    
-	        model.addAttribute("petType", petType);
-	        model.addAttribute("petBreed", petBreed);
-	        model.addAttribute("petSize", petSize);
-	        return "pet";
-	    }
+	    	{
+		        model.addAttribute("editPet", true);
+		        model.addAttribute("listPets", this.petService.listPets());
+		        model.addAttribute("userId", userId);
+		        model.addAttribute("petName", petName);
+		    
+		        model.addAttribute("petType", petType);
+		        model.addAttribute("petBreed", petBreed);
+		        model.addAttribute("petSize", petSize);
+		        return "pet";
+	    	}
     
   /*
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -184,6 +185,7 @@ public class PetController {
     public String dispLoginError() {
        return "loginError";
     }*/
-    
+   
+   		
 
 }
