@@ -33,3 +33,7 @@
 1493271137109	Rename resource 'petInfo.jsp'
 1493332819632	Delete elements
 1493335244072	Encapsulate field 'state'
+1493368944975	Encapsulate field 'invalidLoginAttempts'
+1493369333759	Encapsulate field 'lastLoginTime'
+1493372263875	Encapsulate field 'error'
+1493375535298	Rename resource 'register-success.jsp'

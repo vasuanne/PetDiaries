@@ -14,4 +14,5 @@ public interface UserService
 	public void removeUser(int id);
 	public int getPetCount(int id);
 	public boolean isContactInfoSet(int id);
+	public void logInvalidAttempt(User p);
 }

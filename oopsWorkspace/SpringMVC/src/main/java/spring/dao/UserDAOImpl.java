@@ -1,5 +1,7 @@
 package spring.dao;
-
+import java.util.Date;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -105,7 +107,17 @@ public class UserDAOImpl implements UserDAO {
 				p.setUsername(p1.getUsername());
 				return true;
 			}
+			if((p1.getUsername().equals(p.getUsername())))
+			{
+					System.out.println("In User DAO, password set");
+					p.setUserId(p1.getUserId());
+					p.setError("Password");
+					break;
+			}
+			
+		
 		}
+		
 	//	System.out.println("User DAO Impl doesn't exist");
 		return false;
 	}
@@ -133,6 +145,16 @@ public class UserDAOImpl implements UserDAO {
 			
 	}
 	
-	
+	@Override
+	public void logInvalidAttempt(User p)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		String hql = "select invalidLoginAttempts from User where userId="+ String.valueOf(p.getUserId());
+		int count = ((Integer) session.createQuery(hql).uniqueResult()).intValue();
+		count++;
+		p.setInvalidLoginAttempts(count);
+		session.update(p);
+	}
 	
 }

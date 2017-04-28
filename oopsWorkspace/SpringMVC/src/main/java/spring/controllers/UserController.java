@@ -1,5 +1,8 @@
 package spring.controllers;
 
+
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -97,17 +100,27 @@ public class UserController {
     	if(!retVal)
     	{
     	//	System.out.println("Doesn't exist");
+    		if(p.getError().equals("Password"))
+    		{
+    			p=this.userService.getUserById(p.getUserId());
+    			if(p.getInvalidLoginAttempts()==3)
+    				return "redirect:/account-locked";
+    			System.out.println("In User Controller, password set");
+    			this.userService.logInvalidAttempt(p);
+    		}
     		return "redirect:/invalid-login";
     	}
     	else
     	{
     	//	System.out.println("Exists");
+    		
     		System.out.println("User Type is" + p.getUserType());
     		userId=p.getUserId();
     		model.addAttribute("userId",userId);
     		model.addAttribute("username",p.getUsername());
     		model.addAttribute("firstName",p.getFirstName());
-
+    		p.setLoginTime(new Date());
+    		this.userService.updateUser(p);
     		if(p.getUserType()=="Admin")
     		{
     			return "adminDashboard";
@@ -162,14 +175,24 @@ public class UserController {
       	else
       	{
       	//	System.out.println("Exists");
-      		return "register-success";
+      		return "redirect:/register-success";
       	}
   		
   	}
-      
+     
+    @RequestMapping(value = "/register-success", method = RequestMethod.GET)
+    public String registeredSuccessfully() {
+       return "registerSuccess";
+    }
+    
+    
+    @RequestMapping(value = "/account-locked", method = RequestMethod.GET)
+    public String displayAccountLockoutError() {
+       return "accountLocked";
+    }
     
     @RequestMapping(value = "/invalid-login", method = RequestMethod.GET)
-    public String dispLoginError() {
+    public String displayLoginError() {
        return "loginError";
     }
     

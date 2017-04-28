@@ -69,4 +69,11 @@ public class UserServiceImpl implements UserService {
 		return this.userDAO.isContactInfoSet(id);
 	}
 	
+	@Override
+	@Transactional
+	public void logInvalidAttempt(User p)
+	{
+		this.userDAO.logInvalidAttempt(p);
+	}
+	
 }
