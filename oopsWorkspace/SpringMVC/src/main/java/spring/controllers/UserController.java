@@ -3,6 +3,7 @@ package spring.controllers;
 
 import java.util.Date;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.model.User;
+import spring.model.ResetToken;
 import spring.service.UserService;
 
 @Controller
@@ -35,6 +38,7 @@ public class UserController {
 		return "user";
 	}
 	
+
 	//For add and update user both
 	@RequestMapping(value= "/user/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("user") User p)
@@ -91,6 +95,12 @@ public class UserController {
        return "redirect:users";
     }
     
+    @RequestMapping(value = "/user/goToLogin", method = RequestMethod.GET)
+    public String goToLogin(@ModelAttribute("user") User u) {
+    	
+       return "user";
+    }
+    
     @RequestMapping(value= "/user/login", method = RequestMethod.POST)
 	public String loginUser(Model model, @ModelAttribute("user") User p){
     	
@@ -139,6 +149,7 @@ public class UserController {
     	}
 		
 	}
+  
     
     @RequestMapping(value= "/user/signup", method = RequestMethod.POST)
   	public String signupUser(Model model, @ModelAttribute("user") User p){
@@ -167,6 +178,7 @@ public class UserController {
     	}
       	boolean retVal=this.userService.addUser(p);
   		
+      	
       	if(retVal)
       	{
       		model.addAttribute("invalidInput","Error: Username exists");
@@ -175,6 +187,14 @@ public class UserController {
       	else
       	{
       	//	System.out.println("Exists");
+      		int userId=	this.userService.getUserId(p.getUsername());
+      		ResetToken r=new ResetToken();
+      		r.setUserId(userId);
+      		r.setUsername(p.getUsername());
+      		r.setToken(null);
+      		r.setExpiryTime(null);
+      		
+      		this.userService.createInitialTokenEntry(r);
       		return "redirect:/register-success";
       	}
   		
@@ -231,6 +251,50 @@ public class UserController {
        			return "caretakerDashboard";
        		}
        	}
-   		
-   	
+    
+	@RequestMapping(value = "/passwordReset/{tokenId}/{username}", method = RequestMethod.GET)
+	public String resetPassword(Model model,
+			@PathVariable("tokenId") String tokenId,
+			@PathVariable("username") String username) {
+		System.out.println("In reset user");
+		
+		int userId=this.userService.getUserId(username);
+		String token=this.userService.getResetToken(username);
+		Date tokenExpiryTime=this.userService.getExpiryDate(username);
+		User u1=this.userService.getUserById(userId);
+		
+		System.out.println(userId + " token="+token + " time="+tokenExpiryTime);
+		Date currentTime=new Date();
+		if(tokenId.equals(token))
+		{
+			if(currentTime.before(tokenExpiryTime))
+			{
+				model.addAttribute("user",u1);
+				model.addAttribute("success",false);
+				return "passwordRecoveryPage";
+			}
+		}
+		
+		return "invalidRecoveryLink";
+	}
+	
+	@RequestMapping(value = "/user/updatePassword", method = RequestMethod.POST)
+	public String updatePassword(Model model, @ModelAttribute("user") User u) {
+		System.out.println("In update password");
+		
+		User temp1=this.userService.getUserById(u.getUserId());
+		Date d=temp1.getLoginTime();
+		
+		u.setLoginTime(d);
+		u.setAccountLocked(false);
+		u.setError(null);
+		u.setInvalidLoginAttempts(0);
+		
+		this.userService.updateUser(u);
+		
+		model.addAttribute("success",true);
+		return "passwordRecoveryPage";
+	}
+	
+	
 }

@@ -17,9 +17,12 @@
 	Login
 </h1>
 
+<c:url var="recoverAction" value="/user/recoverUsernamePassword" ></c:url>
 <c:url var="loginAction" value="/user/login" ></c:url>
 
 <form:form action="${loginAction}" commandName="user">
+
+
 <table>
 	<c:if test="${!empty user.username}">
 	<tr>
@@ -55,22 +58,23 @@
 		</td>
 	</tr>
 	<tr>
+
 		<td colspan="2">
-			<c:if test="${!empty user.username}">
-				<input type="submit"
-					value="<spring:message text="Edit User"/>" />
-			</c:if>
-			<c:if test="${empty user.username}">
-				<input type="submit"
-					value="<spring:message text="Add User"/>" />
-			</c:if>
 			<c:if test="${empty user.username}">
 				<input type="submit"
 					value="<spring:message text="Login"/>" />
 			</c:if>
-		</td>
 	</tr>
+	
+	
 </table>	
+</form:form>
+
+<form:form action="${recoverAction}" commandName="user">
+
+				<input type="submit"
+					value="<spring:message text="Forgot Username/Password"/>" />
+
 </form:form>
 <br>
 <h3>Users List</h3>

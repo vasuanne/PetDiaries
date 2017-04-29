@@ -10,6 +10,7 @@ spring/service/ContactInfoServiceImpl.class
 spring/service/UserServiceImpl.class
 spring/model/AdminProfile.class
 spring/model/User.class
+spring/controllers/ContactInfoController$1.class
 spring/dao/UserDAO.class
 spring/model/Pet.class
 spring/model/OwnerProfile.class
@@ -24,6 +25,7 @@ spring/dao/PetDAOImpl.class
 spring/service/PetService.class
 spring/dao/ContactInfoDAO.class
 spring/dao/PetDAO.class
+spring/model/ResetToken.class
 spring/dao/OwnerProfileDAOImpl.class
 spring/service/UserService.class
 spring/model/ContactInfo.class

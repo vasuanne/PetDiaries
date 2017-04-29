@@ -33,8 +33,8 @@ public class PetServiceImpl implements PetService {
 
 	@Override
 	@Transactional
-	public List<Pet> listPets() {
-		return this.petDAO.listPets();
+	public List<Pet> listPets(int userId) {
+		return this.petDAO.listPets(userId);
 	}
 
 	@Override

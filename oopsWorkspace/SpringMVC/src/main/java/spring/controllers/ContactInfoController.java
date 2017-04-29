@@ -1,6 +1,10 @@
 package spring.controllers;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.model.ContactInfo;
+import spring.model.User;
+import spring.service.UserService;
 import spring.service.ContactInfoService;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.activation.*;
+
+import spring.model.ResetToken;
 
 @Controller
 public class ContactInfoController {
@@ -34,7 +46,7 @@ public class ContactInfoController {
 		model.addAttribute("userId",userId);
 		model.addAttribute("addContactInfo",true);
 		model.addAttribute("contactInfo", new ContactInfo());
-		List<ContactInfo> list=this.contactInfoService.listContactInfos();
+		List<ContactInfo> list=this.contactInfoService.listContactInfos(userId);
 		model.addAttribute("listContactInfo",list );
 		
 		return "contactInfo";
@@ -45,6 +57,7 @@ public class ContactInfoController {
 	public String addContactInfo(Model model, @ModelAttribute("contactInfo") ContactInfo p)
 	{
 		System.out.println("IN add contact info");
+		int userId;
 		boolean error=false;
 		if(p.getId()>0)
 			model.addAttribute("editContactInfo",true);
@@ -98,27 +111,14 @@ public class ContactInfoController {
 
 	    			error=this.contactInfoService.addContactInfo(p);
 	    			
+	    			
     			}
     			model.addAttribute("addContactInfo",false);
     			model.addAttribute("editContactInfo",false);
-    			model.addAttribute("listContactInfo", this.contactInfoService.listContactInfos());
+    			model.addAttribute("listContactInfo", this.contactInfoService.listContactInfos(p.getUserId()));
     	}
     		
-  //  		model.addAttribute("listContactInfo", this.contactInfoService.listContactInfo());
-    //	}
-			/*if(error)
-			{
-				return "invalid-contactInfoname";
-			}
-			else
-			{
-				return "register-success";
-			}
-			}else{
-		//	existing contactInfo, call update
-			this.contactInfoService.updateContactInfo(p);
-			}
-		*/
+ 
     	
 			return "contactInfo";
 			
@@ -138,38 +138,19 @@ public class ContactInfoController {
         return "redirect:/user/contactInfo";
     }
 	
-    //@RequestMapping(value="/user/contactInfo/edit/{id}/{userId}/{street}/{city}/{state}/{phoneNumber}/{zipcode}/{emailAddr}")
+  
 	@RequestMapping(value="/user/contactInfo/edit")
 	public String editContactInfo(
-    	/*	@PathVariable("id") int id, 
-    		@PathVariable("userId") int userId, 
-    		@PathVariable("street") String street,
-    		@PathVariable("city") String city,
-    		@PathVariable("state") String state,
-    		@PathVariable("phoneNumber") String phoneNumber,
-    		@PathVariable("zipcode") String zipcode,
-    		@PathVariable("emailAddr") String emailAddr,*/
+   
     		Model model,
     		@ModelAttribute("contactInfo") ContactInfo p)
 	    	{
     		
 	    		System.out.println("IN edit contact info"+p.getEmailAddr());
 	    	
-	    	/*	model.addAttribute("addContactInfo", false);
-		        model.addAttribute("editContactInfo", true);
-		        model.addAttribute("listContactInfo", this.contactInfoService.listContactInfos());
-		        model.addAttribute("id", id);
-		        model.addAttribute("userId", userId);
-		        model.addAttribute("street", street);
-		    
-		        model.addAttribute("city", city);
-		        model.addAttribute("state", state);
-		        model.addAttribute("phoneNumber", phoneNumber);
-		        model.addAttribute("zipcode", zipcode);
-		        model.addAttribute("emailAddr", emailAddr);*/
+	    
 	    		model.addAttribute("addContactInfo", false);
 		        model.addAttribute("editContactInfo", true);
-		    //    model.addAttribute("listContactInfo", this.contactInfoService.listContactInfos());
 		        model.addAttribute("id", p.getId());
 		        model.addAttribute("userId", p.getUserId());
 		        model.addAttribute("street", p.getStreet());
@@ -182,59 +163,97 @@ public class ContactInfoController {
 	    		
 		        return "contactInfo";
 	    	}
-    
-  /*
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
-       return "redirect:contactInfos";
-    }
-    
-    @RequestMapping(value= "/contactInfo/login", method = RequestMethod.POST)
-	public String loginContactInfo(Model model, @ModelAttribute("contactInfo") ContactInfo p){
-    	
-   // 	System.out.println("in login");
-    	boolean retVal=this.contactInfoService.validateContactInfo(p);
-		int contactInfoId=0;
-    	if(!retVal)
-    	{
-    	//	System.out.println("Doesn't exist");
-    		return "redirect:/invalid-login";
-    	}
-    	else
-    	{
-    	//	System.out.println("Exists");
-    		System.out.println("ContactInfo Type is" + p.getContactInfoType());
-    		contactInfoId=p.getContactInfoId();
-    		model.addAttribute("contactInfoId",contactInfoId);
-    		model.addAttribute("contactInfoname",p.getContactInfoname());
-    		model.addAttribute("firstName",p.getFirstName());
 
-    		if(p.getContactInfoType()=="Admin")
-    		{
-    			return "adminDashboard";
-    		}
-    		else if((p.getContactInfoType()).equals("Owner"))
-    		{
-    			model.addAttribute("contactInfoCount",this.contactInfoService.getContactInfoCount(contactInfoId));
-    			model.addAttribute("contactInfo",this.contactInfoService.isContactInfoSet(contactInfoId));
-    			return "ownerDashboard";
-    		}
-    		else 
-    		{
-    			
-    			return "caretakerDashboard";
-    		}
-    	}
-		
-	}
-    
-   
-      
-    
-    @RequestMapping(value = "/invalid-login", method = RequestMethod.GET)
-    public String dispLoginError() {
-       return "loginError";
-    }*/
-    
+	 @RequestMapping(value = "/user/recoverUsernamePassword", method = RequestMethod.POST)
+	    public String forgotUsernamePassword(Model model) {
+	    	model.addAttribute("user",new ContactInfo());
+	       return "recover";
+	    }
+	    
+	    @RequestMapping(value= "/user/recover", method = RequestMethod.POST)
+	   	public String recoverUsernamePassword(Model model, @ModelAttribute("user") ContactInfo c){
+	    		
+	    		//check if email address is there in database
+	    		boolean isAvailable=this.contactInfoService.isRecoveryEmailAddrAvailable(c);
+	    		if(isAvailable)
+	    		{
+	    			//send email out
+	    			
+	    			System.out.println("in recovery Available");
+	    			int userId =c.getUserId();
+	    			String username=this.contactInfoService.getUsernameWithUserId(userId);
+	    			int resetTokenId=this.contactInfoService.resetTokenId(userId);
+	    			
+	    			Random rand = new Random();
+	  	 
+	    			/*Generate token*/
+	    			int  token = rand.nextInt(1000) + 1;
+	    			ResetToken r=new ResetToken();
+	    			r.setId(resetTokenId);
+	    			
+	    			r.setToken(String.valueOf(token));
+	    			
+	    			r.setUserId(c.getUserId());
+	    			
+	    			r.setUsername(username);
+	    		//	r.setExpiryTime(new Date());
+	    			
+	    			/*Generate expiry date to be current time + 24hours*/
+	    			Date dt= new Date();
+	    			Calendar cal = Calendar.getInstance(); 
+	    			cal.setTime(dt); 
+	    			cal.add(Calendar.DATE, 1);
+	    			dt = cal.getTime();
+	    			r.setExpiryTime(dt);
+	    			
+	    			this.contactInfoService.updateResetToken(r);
+	    			
+	    		//	p.setLoginTime(new Date());
+	    			String resetUrl="http://localhost:8080/SpringMVC/passwordReset/"
+	    					+String.valueOf(token)+"/"+username;
+	    			String emailContent="Hello,\nYour username is "+username+".\nClick "
+	    					+ "the following link to reset your password\n"+resetUrl+
+	    					"\nThis link will expire in 24 hours.\n\nThank You!\nPet Diaries Team";
+	    			Properties props = new Properties();
+	    			props.put("mail.smtp.host", "smtp.gmail.com");
+	    			props.put("mail.smtp.socketFactory.port", "465");
+	    			props.put("mail.smtp.socketFactory.class",
+	    					"javax.net.ssl.SSLSocketFactory");
+	    			props.put("mail.smtp.auth", "true");
+	    			props.put("mail.smtp.port", "465");
+	    			
+	    			
+
+	    			Session session = Session.getDefaultInstance(props,
+	    				new javax.mail.Authenticator() {
+	    					protected PasswordAuthentication getPasswordAuthentication() {
+	    						return new PasswordAuthentication("",""); //Add username password here
+	    					}
+	    				});
+
+	    			try {
+
+	    				Message message = new MimeMessage(session);
+	    				message.setFrom(new InternetAddress("from@no-spam.com"));
+	    				message.setRecipients(Message.RecipientType.TO,
+	    						InternetAddress.parse(c.getEmailAddr()));
+	    				message.setSubject("Account Recovery");
+	    				message.setText(emailContent);
+
+	    				Transport.send(message);
+
+	    				System.out.println("Done");
+
+	    			} catch (MessagingException e) {
+	    				throw new RuntimeException(e);
+	    			}
+	    		   }
+	    		
+	    		
+	    		model.addAttribute("emailSent",true);
+	    		return "recover";
+	       	
+	    }
+	   	
 
 }

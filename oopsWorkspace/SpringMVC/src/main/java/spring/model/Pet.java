@@ -45,7 +45,7 @@ public class Pet {
 	{
 		this.userId = userId;
 	}
-
+	
 	public String getPetType() 
 	{
 		return petType;

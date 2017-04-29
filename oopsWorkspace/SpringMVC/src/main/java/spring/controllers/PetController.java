@@ -34,7 +34,7 @@ public class PetController {
 		model.addAttribute("userId",userId);
 		model.addAttribute("addPet",true);
 		model.addAttribute("pet", new Pet());
-		model.addAttribute("listPets", this.petService.listPets());
+		model.addAttribute("listPets", this.petService.listPets(userId));
 		
 		return "pet";
 	}
@@ -79,7 +79,7 @@ public class PetController {
     		else
     			error=this.petService.addPet(p);
     
-    		model.addAttribute("listPets", this.petService.listPets());
+    		model.addAttribute("listPets", this.petService.listPets(p.getUserId()));
     	}
 			/*if(error)
 			{
@@ -123,7 +123,7 @@ public class PetController {
     		@ModelAttribute("pet") Pet p)
 	    	{
 		        model.addAttribute("editPet", true);
-		        model.addAttribute("listPets", this.petService.listPets());
+		        model.addAttribute("listPets", this.petService.listPets(userId));
 		        model.addAttribute("userId", userId);
 		        model.addAttribute("petName", petName);
 		    

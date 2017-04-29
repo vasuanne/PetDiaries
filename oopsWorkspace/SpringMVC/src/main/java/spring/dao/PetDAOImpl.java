@@ -56,9 +56,9 @@ public class PetDAOImpl implements PetDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Pet> listPets() {
+	public List<Pet> listPets(int userId) {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Pet> petsList = session.createQuery("from Pet").list();
+		List<Pet> petsList = session.createQuery("from Pet where userId="+String.valueOf(userId)).list();
 		for(Pet p : petsList){
 			logger.info("Pet List::"+p);
 		}

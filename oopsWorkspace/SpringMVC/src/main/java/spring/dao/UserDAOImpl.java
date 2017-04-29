@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import spring.model.User;
+import spring.model.ResetToken;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -30,9 +31,9 @@ public class UserDAOImpl implements UserDAO {
 	public boolean addUser(User p) {
 		boolean error=false;
 		Session session = this.sessionFactory.getCurrentSession();
-		
 		try
-		{
+		{	
+			
 			session.save(p);
 			//tx.commit();
 			System.out.println("User DAO Impl Added user without exceptions");
@@ -75,6 +76,7 @@ public class UserDAOImpl implements UserDAO {
 		return p;
 	}
 
+	
 	@Override
 	public void removeUser(int id) {
 		Session session = this.sessionFactory.getCurrentSession();
@@ -156,5 +158,60 @@ public class UserDAOImpl implements UserDAO {
 		p.setInvalidLoginAttempts(count);
 		session.update(p);
 	}
+	
+	@Override
+	public void createInitialTokenEntry(ResetToken resetToken) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		session.save(resetToken);
+		
+	
+	}
+	
+	@Override
+	public int getUserId(String username) {
+		
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select userId from User where username='"+ username+"'";
+		int userId = ((Integer) session.createQuery(hql).uniqueResult()).intValue();
+		return userId;
+	
+	}
+	
+
+	@Override
+	public int resetTokenId(String username) {
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select id from ResetToken where username='"+username+"'";
+		
+		int id = ((Integer) session.createQuery(hql).uniqueResult());
+		
+		return id;
+
+	}
+
+	@Override
+	public String getResetToken(String username) {
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select token from ResetToken where username='"+username+"'";
+		
+		String token = ((String) session.createQuery(hql).uniqueResult());
+		
+		return token;
+
+	}
+	
+	@Override
+	public Date getExpiryDate(String username) {
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select expiryTime from ResetToken where username='"+username+"'";
+		
+		Date date = ((Date) session.createQuery(hql).uniqueResult());
+		
+		return date;
+
+	}
+
+	
 	
 }

@@ -121,6 +121,14 @@ public class User {
 	public void setError(String error) {
 		this.error = error;
 	}
+
+	public boolean isAccountLocked() {
+		return accountLocked;
+	}
+
+	public void setAccountLocked(boolean accountLocked) {
+		this.accountLocked = accountLocked;
+	}
 	
 
 	

@@ -1,8 +1,10 @@
 package spring.service;
 
+import java.util.Date;
 import java.util.List;
 
 import spring.model.User;
+import spring.model.ResetToken;
 
 public interface UserService
 {
@@ -15,4 +17,10 @@ public interface UserService
 	public int getPetCount(int id);
 	public boolean isContactInfoSet(int id);
 	public void logInvalidAttempt(User p);
+	public void createInitialTokenEntry(ResetToken resetToken);
+	public int getUserId(String username);
+	public int resetTokenId(String username);
+	public Date getExpiryDate(String username);
+	public String getResetToken(String username);
+	
 }

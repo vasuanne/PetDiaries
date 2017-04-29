@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import spring.dao.ContactInfoDAO;
 import spring.model.ContactInfo;
+import spring.model.ResetToken;
 
 @Service
 public class ContactInfoServiceImpl implements ContactInfoService {
@@ -33,8 +34,8 @@ public class ContactInfoServiceImpl implements ContactInfoService {
 
 	@Override
 	@Transactional
-	public List<ContactInfo> listContactInfos() {
-		return this.contactInfoDAO.listContactInfos();
+	public List<ContactInfo> listContactInfos(int userId) {
+		return this.contactInfoDAO.listContactInfos(userId);
 	}
 
 	@Override
@@ -51,16 +52,30 @@ public class ContactInfoServiceImpl implements ContactInfoService {
 	
 	@Override
 	@Transactional
-	public int getContactInfoCount(int id)
-	{
-		return this.contactInfoDAO.getContactInfoCount(id);
+	public boolean isRecoveryEmailAddrAvailable(ContactInfo emailAddr) {
+		return this.contactInfoDAO.isRecoveryEmailAddrAvailable(emailAddr);
+		
+	}
+	
+	
+	@Override
+	@Transactional
+	public String getUsernameWithUserId(int id) {
+		return this.contactInfoDAO.getUsernameWithUserId(id);
+		
 	}
 	
 	@Override
 	@Transactional
-	public boolean isContactInfoSet(int id)
+	public int resetTokenId(int userId)
 	{
-		return this.contactInfoDAO.isContactInfoSet(id);
+		return this.contactInfoDAO.resetTokenId(userId);
 	}
 	
+	@Override
+	@Transactional
+	public void updateResetToken(ResetToken r)
+	{
+		this.contactInfoDAO.updateResetToken(r);
+	}
 }

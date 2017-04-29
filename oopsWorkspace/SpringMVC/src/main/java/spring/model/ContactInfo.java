@@ -74,7 +74,7 @@ public class ContactInfo {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
+	
 	public String getZipcode() {
 		return zipcode;
 	}

@@ -15,6 +15,7 @@
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/model/AdminProfile.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/dao/ContactInfoDAO.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/service/OwnerProfileServiceImpl.java
+/Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/model/ResetToken.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/dao/OwnerProfileDAO.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/service/ContactInfoServiceImpl.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/service/PetServiceImpl.java

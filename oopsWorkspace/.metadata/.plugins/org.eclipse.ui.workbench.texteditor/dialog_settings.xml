@@ -2,22 +2,23 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="update" key="selection"/>
+		<item value="ResetToken" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="update"/>
-			<item value="lastLoginTime"/>
-			<item value="String"/>
-			<item value="pet."/>
-			<item value="pet"/>
-			<item value="listContactInfos"/>
-			<item value="editPet"/>
-			<item value="addPet"/>
+			<item value="ResetToken"/>
+			<item value="resettoken"/>
+			<item value="resettone"/>
+			<item value="Reset"/>
+			<item value="Date"/>
+			<item value="login"/>
+			<item value="date"/>
+			<item value="User"/>
 		</list>
 		<list key="replacehistory">
+			<item value="ResetToken"/>
 			<item value="loginTime"/>
 			<item value="contactInfo."/>
 			<item value="contactInfo"/>
@@ -25,7 +26,6 @@
 			<item value="editContactInfo"/>
 			<item value="addContactInfo"/>
 			<item value="ContactInfo"/>
-			<item value="Pet"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

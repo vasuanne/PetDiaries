@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import spring.model.ContactInfo;
-
+import spring.model.Pet;
+import spring.model.ResetToken;
 @Repository
 public class ContactInfoDAOImpl implements ContactInfoDAO {
 	
@@ -28,12 +29,15 @@ public class ContactInfoDAOImpl implements ContactInfoDAO {
 	public boolean addContactInfo(ContactInfo p) {
 		boolean error=false;
 		Session session = this.sessionFactory.getCurrentSession();
-		
+		String hql="select id from ContactInfo where userId="+p.getUserId();
 		try
 		{
 			session.save(p);
 			//tx.commit();
+			int id =  ((Integer) session.createQuery(hql).uniqueResult()).intValue();
+			p.setId(id);
 			System.out.println("ContactInfo DAO Impl Added contactInfo without exceptions");
+			
 		}
 		catch(Exception e)
 		{
@@ -56,9 +60,9 @@ public class ContactInfoDAOImpl implements ContactInfoDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ContactInfo> listContactInfos() {
+	public List<ContactInfo> listContactInfos(int userId) {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<ContactInfo> contactInfosList = session.createQuery("from ContactInfo").list();
+		List<ContactInfo> contactInfosList = session.createQuery("from ContactInfo where userId="+String.valueOf(userId)).list();
 		for(ContactInfo p : contactInfosList){
 			logger.info("ContactInfo List::"+p);
 		}
@@ -87,29 +91,55 @@ public class ContactInfoDAOImpl implements ContactInfoDAO {
 	}
 
 	
+	 
 	@Override
-	public int getContactInfoCount(int id)
+	public boolean isRecoveryEmailAddrAvailable(ContactInfo c)
 	{
 		Session session = this.sessionFactory.getCurrentSession();
-		String hql = "select count(*) from ContactInfo where contactInfoId="+String.valueOf(id);
+		String hql = "select count(emailAddr) from ContactInfo where emailAddr='"+c.getEmailAddr()+"'";
+		String hql1 = "select userId from ContactInfo where emailAddr='"+c.getEmailAddr()+"'";
 		int count = ((Long) session.createQuery(hql).uniqueResult()).intValue();
-		return count;
-	}
-	
-	@Override
-	public boolean isContactInfoSet(int id)
-	{
-		Session session = this.sessionFactory.getCurrentSession();
-		String hql = "select count(contactInfoId) from ContactInfo where contactInfoId="+String.valueOf(id);
-		int count = ((Long) session.createQuery(hql).uniqueResult()).intValue();
-
+		
 		if(count>0)
+		{
+			int userId=((Integer) session.createQuery(hql1).uniqueResult()).intValue();
+			c.setUserId(userId);
 			return true;
+		}
 		else
 			return false;
 			
 	}
 	
+	@Override
+	public String getUsernameWithUserId(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select username from User where userId="+String.valueOf(id);
 	
+		String username = ((String) session.createQuery(hql).uniqueResult());
+		
+		return username;
+			
+	}
+	
+	@Override
+	public void updateResetToken(ResetToken r) {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.update(r);
+	}
+	
+	
+	@Override
+	public int resetTokenId(int userId) {
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select id from ResetToken where userId="+String.valueOf(userId);
+		
+		int id = ((Integer) session.createQuery(hql).uniqueResult());
+		
+		return id;
+
+	}
+
 	
 }
