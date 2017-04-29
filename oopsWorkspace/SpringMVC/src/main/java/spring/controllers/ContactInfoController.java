@@ -227,7 +227,7 @@ public class ContactInfoController {
 	    			Session session = Session.getDefaultInstance(props,
 	    				new javax.mail.Authenticator() {
 	    					protected PasswordAuthentication getPasswordAuthentication() {
-	    						return new PasswordAuthentication("",""); //Add username password here
+	    						return new PasswordAuthentication("","");//Add username password here
 	    					}
 	    				});
 

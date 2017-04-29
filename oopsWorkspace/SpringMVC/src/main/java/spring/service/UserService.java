@@ -22,5 +22,6 @@ public interface UserService
 	public int resetTokenId(String username);
 	public Date getExpiryDate(String username);
 	public String getResetToken(String username);
+	public List<User> listCaretakers(int userId);
 	
 }

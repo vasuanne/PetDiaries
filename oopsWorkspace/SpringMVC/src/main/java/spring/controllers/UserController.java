@@ -12,22 +12,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import spring.model.User;
+import spring.model.Pet;
 import spring.model.ResetToken;
+import spring.service.ProfileFactoryService;
 import spring.service.UserService;
-
+import java.util.List;
 @Controller
 public class UserController {
 	
 	private UserService userService;
+	private ProfileFactoryService profileFactoryService;
 	
 	@Autowired(required=true)
 	//@Qualifier(value="userService")
 	public void setUserService(UserService ps){
 		System.out.println("In user controller");
 		this.userService = ps;
+	}
+	
+	@Autowired(required=true)
+	//@Qualifier(value="userService")
+	public void setProfileFactoryService(ProfileFactoryService ps){
+		System.out.println("In profile factory service setup");
+		this.profileFactoryService = ps;
 	}
 		
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -295,6 +306,35 @@ public class UserController {
 		model.addAttribute("success",true);
 		return "passwordRecoveryPage";
 	}
+	
+	@RequestMapping(value = "/user/suggestedCaretakers", method = RequestMethod.GET)
+	public String listPets(Model model,@RequestParam("userId") int userId) {
+	
+		System.out.println("In suggested caretakers");
+		model.addAttribute("userId",userId);
+		model.addAttribute("user",new User());
+		model.addAttribute("listCaretakers", this.userService.listCaretakers(userId));
+
+		return "suggestedCaretakers";
+	}
+	
+	@RequestMapping(value = "/user/listCaretakers", method = RequestMethod.POST)
+	public String listCaretakers(Model model,
+			@ModelAttribute("user") User p,
+			@RequestParam("userId") int userId,
+			@RequestParam("username") String username,
+			@RequestParam("userType") String userType
+			) {
+	
+		System.out.println("In list caretakers ");
+		model.addAttribute("userId",userId);
+
+		model.addAttribute("listCaretakers", this.userService.listCaretakers(userId));
+
+		/*FActory pattern comes here*/
+		return "suggestedCaretakers";
+	}
+	
 	
 	
 }

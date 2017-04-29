@@ -118,4 +118,14 @@ public class UserServiceImpl implements UserService {
 		return this.userDAO.getResetToken(username);
 		
 	}
+	
+	
+	@Override
+	@Transactional
+	public List<User> listCaretakers(int userId)
+
+	{
+		return this.userDAO.listCaretakers(userId);
+		
+	}
 }

@@ -43,6 +43,7 @@
 				<beans:value>spring.model.Pet</beans:value>
 				<beans:value>spring.model.ContactInfo</beans:value>
 				<beans:value>spring.model.ResetToken</beans:value>
+				<beans:value>spring.model.History</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -62,6 +63,10 @@
 	
 	<beans:bean id="userService" class="spring.service.UserServiceImpl">
 		<beans:property name="userDAO" ref="userDAO"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="profileFactoryService" class="spring.service.ProfileFactoryService">
+		
 	</beans:bean>
 	
 	<beans:bean id="ownerProfileDAO" class="spring.dao.OwnerProfileDAOImpl">

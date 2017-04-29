@@ -1,4 +1,5 @@
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/dao/ContactInfoDAOImpl.java
+/Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/model/History.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/model/Pet.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/service/UserService.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/dao/PetDAO.java
@@ -24,6 +25,7 @@
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/service/OwnerProfileService.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/service/PetService.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/model/OwnerProfile.java
+/Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/service/ProfileFactoryService.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/model/CaretakerProfile.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/controllers/UserController.java
 /Users/anne/Documents/oopsWorkspace/SpringMVC/src/main/java/spring/model/User.java

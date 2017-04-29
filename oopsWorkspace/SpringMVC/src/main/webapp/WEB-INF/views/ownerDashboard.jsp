@@ -16,6 +16,7 @@
 <p>${userId}</p>
 <c:url var="addPets" value="/user/pet" ></c:url>
 <c:url var="addContactInfo" value="/user/contactInfo" ></c:url>
+<c:url var="suggestedCaretakers" value="/user/suggestedCaretakers" ></c:url>
 <c:if test="${petCount == 0 || !contactInfo}">
 <h2>Profile setting not complete. You must complete your profile to raise and accept requests.</h2>
 	<table class="tg"  border="1px">
@@ -52,6 +53,16 @@
 	</table>
 </c:if>
 
+<c:if test="${contactInfo && petCount>0}">
+	<tr>
+		
+       	<td><form:form method = "GET" action="${suggestedCaretakers}" commandName="user"><input name="userId" value="${userId}" hidden="true"/>
+        <input type="submit" value="Suggested Caretakers"/>
+        </form:form>
+      
+	</tr>
+	</c:if>
+	
 
 
 </body>

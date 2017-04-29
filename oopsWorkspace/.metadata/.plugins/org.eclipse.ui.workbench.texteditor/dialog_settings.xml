@@ -2,30 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="ResetToken" key="selection"/>
+		<item value="HISTORY" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="PET"/>
+			<item value="Pet"/>
+			<item value="user"/>
+			<item value="User"/>
+			<item value="component"/>
 			<item value="ResetToken"/>
 			<item value="resettoken"/>
 			<item value="resettone"/>
-			<item value="Reset"/>
-			<item value="Date"/>
-			<item value="login"/>
-			<item value="date"/>
-			<item value="User"/>
 		</list>
 		<list key="replacehistory">
+			<item value="HISTORY"/>
+			<item value="History"/>
+			<item value="profileFactory"/>
+			<item value="ProfileFactory"/>
 			<item value="ResetToken"/>
 			<item value="loginTime"/>
 			<item value="contactInfo."/>
 			<item value="contactInfo"/>
-			<item value="listContactInfo"/>
-			<item value="editContactInfo"/>
-			<item value="addContactInfo"/>
-			<item value="ContactInfo"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

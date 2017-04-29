@@ -1,5 +1,6 @@
 package spring.dao;
 import java.util.Date;
+import java.util.ArrayList;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -210,6 +211,22 @@ public class UserDAOImpl implements UserDAO {
 		
 		return date;
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> listCaretakers(int userId)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select caretakerId from History where ownerId="+String.valueOf(userId);
+		List<Integer> caretakerIdList=  session.createQuery(hql).list();
+		List<User> ul=new ArrayList<User>();
+		for(int i:caretakerIdList)
+		{
+			User u=getUserById(i);
+			ul.add(u);
+		}
+		return ul;
 	}
 
 	

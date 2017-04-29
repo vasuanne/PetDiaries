@@ -42,3 +42,6 @@
 1493428915604	Encapsulate field 'expiryTime'
 1493430218507	Encapsulate field 'accountLocked'
 1493440011193	Encapsulate field 'username'
+1493458006493	Delete element
+1493459689722	Encapsulate field 'ownerId'
+1493459696177	Encapsulate field 'caretakerId'

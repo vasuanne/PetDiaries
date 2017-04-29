@@ -1,10 +1,10 @@
 package spring.model;
 
-import javax.persistence.MappedSuperclass;
 
 import spring.model.User;
+import spring.service.ProfileFactoryService;
 
-@MappedSuperclass
+
 public abstract class Profile extends User{
 	void openChatBox()
 	{
