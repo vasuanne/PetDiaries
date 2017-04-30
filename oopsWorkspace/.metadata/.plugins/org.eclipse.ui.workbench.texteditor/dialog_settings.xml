@@ -2,37 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="HISTORY" key="selection"/>
+		<item value="private" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="PET"/>
-			<item value="Pet"/>
-			<item value="user"/>
-			<item value="User"/>
-			<item value="component"/>
-			<item value="ResetToken"/>
-			<item value="resettoken"/>
-			<item value="resettone"/>
+			<item value="protected"/>
+			<item value="ownerFirstName"/>
+			<item value="owner"/>
+			<item value="Owner"/>
+			<item value="OwnerProfile"/>
+			<item value="date"/>
+			<item value="maven"/>
+			<item value="@requestParam"/>
 		</list>
 		<list key="replacehistory">
+			<item value="private"/>
+			<item value="caretaker"/>
+			<item value="Caretaker"/>
+			<item value="CaretakerProfile"/>
+			<item value="owner"/>
+			<item value="Owner"/>
+			<item value="caretakerProfile"/>
 			<item value="HISTORY"/>
-			<item value="History"/>
-			<item value="profileFactory"/>
-			<item value="ProfileFactory"/>
-			<item value="ResetToken"/>
-			<item value="loginTime"/>
-			<item value="contactInfo."/>
-			<item value="contactInfo"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="290" key="DIALOG_WIDTH"/>
 		<item value="1|.SF NS Text|11.0|0|COCOA|1|.SFNSText" key="DIALOG_FONT_NAME"/>
 		<item value="409" key="DIALOG_HEIGHT"/>
-		<item value="835" key="DIALOG_X_ORIGIN"/>
-		<item value="73" key="DIALOG_Y_ORIGIN"/>
+		<item value="926" key="DIALOG_X_ORIGIN"/>
+		<item value="287" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

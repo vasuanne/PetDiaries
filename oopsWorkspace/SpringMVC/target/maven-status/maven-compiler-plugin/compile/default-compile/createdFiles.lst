@@ -4,7 +4,6 @@ spring/dao/OwnerProfileDAO.class
 spring/config/AppConfig.class
 spring/dao/UserDAOImpl.class
 spring/config/AppInitializer.class
-spring/controllers/PetController.class
 spring/controllers/UserController.class
 spring/service/ContactInfoServiceImpl.class
 spring/service/UserServiceImpl.class
@@ -15,7 +14,6 @@ spring/dao/UserDAO.class
 spring/model/Pet.class
 spring/model/OwnerProfile.class
 spring/service/ContactInfoService.class
-spring/controllers/OwnerProfileController.class
 spring/model/CaretakerProfile.class
 spring/model/Profile.class
 spring/service/OwnerProfileServiceImpl.class

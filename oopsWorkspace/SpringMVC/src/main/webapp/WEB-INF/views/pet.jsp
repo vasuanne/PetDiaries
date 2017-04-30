@@ -28,6 +28,9 @@
 
 <c:url var="redirectDash" value="/user/dash" ></c:url>
 <c:url var="addAction" value="/user/pet/add" ></c:url>
+<c:url var="editAction" value="/user/pet/edit" ></c:url>
+<c:url var="removeAction" value="/user/pet/remove" ></c:url>
+
 <form:form action="${addAction}" commandName="pet">
 <table>
 	
@@ -41,11 +44,12 @@
 	<c:if test="${editPet}">
 	<tr>
 		<td>
-			<form:input path="petId" value="${petId}" readonly="true" size="8" type="hidden" />
+			<form:input path="petId" value="${pet.petId}" readonly="true" size="8" type="hidden" />
 			<form:hidden path="petId" />
 		</td> 
 	</tr>
 	</c:if>	
+	<c:if test="${userType=='Owner'}">
 	<tr>
 		<td>
 			<form:label path="petName">
@@ -58,13 +62,14 @@
 			<form:input path="petName"/>
     		</c:when>    
    		 	<c:when test="${editPet}">
-       		<form:input path="petName" value="${petName}"/>
+       		<form:input path="petName" value="${pet.petName}"/>
     	</c:when>  
 
 		</c:choose>
   </td>
 		
 	</tr>
+	</c:if>
 	<tr>
 		<td>
 			<form:label path="petType">
@@ -84,8 +89,8 @@
     		</c:when>    
    		 	<c:when test="${editPet}">
        		<select name="petType">
-					<option value="Cat" <c:if test="${petType.equals('Cat')}">selected="selected"</c:if>>Cat</option>
-					<option value="Dog" <c:if test="${petType.equals('Dog')}">selected="selected"</c:if>>Dog</option>
+					<option value="Cat" <c:if test="${pet.petType.equals('Cat')}">selected="selected"</c:if>>Cat</option>
+					<option value="Dog" <c:if test="${pet.petType.equals('Dog')}">selected="selected"</c:if>>Dog</option>
 				</select>
     	</c:when>  
     	</c:choose>
@@ -98,19 +103,25 @@
 				<spring:message text="Pet Breed"/>
 			</form:label>
 		</td>
+		
 		<td>
 		<c:choose>
     		<c:when test="${addPet}">
 				<form:input path="petBreed"/>
     		</c:when>    
    		 	<c:when test="${editPet}">
-     			 <form:input path="petBreed" value="${petBreed}"/>
+     			 <form:input path="petBreed" value="${pet.petBreed}"/>
     		</c:when>  
     	</c:choose>
     	</td>
-	
+		
 	</tr>
 	<tr>
+	
+	<td>
+	<input type="hidden" name="userType" value="${userType}" />
+	</td>
+	</tr>
 	<tr>
 		<td>
 			<form:label path="petSize">
@@ -175,10 +186,52 @@
 			<td>${pet.petType}</td>
 			<td>${pet.petBreed}</td>
 			<td>${pet.petSize}</td>
-			<td><a href="<c:url value='/user/pet/edit/${pet.petId}/${pet.userId}/${pet.petName}/${pet.petType}/${pet.petBreed}/${pet.petSize}'/>" >Edit</a></td>
-			<td><a href="<c:url value='/user/pet/remove/${pet.petId}/${pet.userId}' />" >Delete</a></td>
-		</tr>
 		
+			 
+
+			<td>
+		 	<form:form action="${editAction}" commandName="pet">
+			<form:input path="petId" value="${pet.petId}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petName" value="${pet.petName}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petBreed" value="${pet.petBreed}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petSize" value="${pet.petSize}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petType" value="${pet.petType}" readonly="true" size="8" type="hidden"/>
+
+			<input type="hidden" name="userId" value="${pet.userId}" />
+			
+			<input type="hidden" name="userType" value="${userType}" />
+	
+			<input type="submit"	
+			value="<spring:message text="Edit"/>" />
+			</form:form>
+			</td>
+			<td>
+			<form:form action="${removeAction}" commandName="pet">
+			<form:input path="petId" value="${pet.petId}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petName" value="${pet.petName}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petBreed" value="${pet.petBreed}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petSize" value="${pet.petSize}" readonly="true" size="8" type="hidden"/>
+			
+			<form:input path="petType" value="${pet.petType}" readonly="true" size="8" type="hidden"/>
+
+			<input type="hidden" name="userId" value="${pet.userId}" />
+			
+			<input type="hidden" name="userType" value="${userType}" />
+			
+			<input type="submit"	
+			value="<spring:message text="Delete"/>" />
+			</form:form>
+	
+			<!--  <td><a href="<c:url value='/user/pet/edit/${pet.petId}/${pet.userId}/${pet.petName}/${pet.petType}/${pet.petBreed}/${pet.petSize}'/>" >Edit</a></td>
+			<td><a href="<c:url value='/user/pet/remove/${pet.petId}/${pet.userId}'/>" >Delete</a></td>-->
+		</tr>
 	</c:forEach>
 	</table>
 </c:if>

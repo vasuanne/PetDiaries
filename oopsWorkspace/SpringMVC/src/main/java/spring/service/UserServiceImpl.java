@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import spring.dao.UserDAO;
+import spring.model.Request;
 import spring.model.ResetToken;
 import spring.model.User;
 
@@ -127,5 +128,12 @@ public class UserServiceImpl implements UserService {
 	{
 		return this.userDAO.listCaretakers(userId);
 		
+	}
+	
+	@Override
+	@Transactional
+	public List<Request> listMatchingRequests(User u)
+	{
+		return this.userDAO.listMatchingRequests(u);
 	}
 }

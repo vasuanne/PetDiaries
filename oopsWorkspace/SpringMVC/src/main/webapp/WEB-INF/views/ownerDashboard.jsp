@@ -32,6 +32,7 @@
 		<td><p>You have 0 pets available. Please add pets.</p></td>
 		   
        	<td><form:form method = "GET" action="${addPets}" commandName="pet"><input type="hidden" name="userId" value="${userId}" />
+       	<input type="hidden" name="userType" value="${userType}" />
         <input type="submit" value="Add pet info"/>
       	</form:form>  </td>
       
@@ -56,12 +57,26 @@
 <c:if test="${contactInfo && petCount>0}">
 	<tr>
 		
-       	<td><form:form method = "GET" action="${suggestedCaretakers}" commandName="user"><input name="userId" value="${userId}" hidden="true"/>
+       	<td><form:form method = "GET" action="${suggestedCaretakers}" commandName="user"><input name="userId" value="${userId}" type="hidden"/>
         <input type="submit" value="Suggested Caretakers"/>
         </form:form>
       
 	</tr>
-	</c:if>
+
+	<c:url var="addAction" value="/user/login/request/${userId}/${username}/${userType}" ></c:url>
+	<form:form action="${addAction}" commandName="request">
+	<table class="tg">
+	<tr>
+		<td colspan="2">
+			
+				<input type="submit" value="Create Request" />
+			
+		</td>
+	</tr>
+	</table>
+	</form:form>
+	
+</c:if>
 	
 
 

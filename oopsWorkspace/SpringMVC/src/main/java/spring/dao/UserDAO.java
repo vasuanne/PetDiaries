@@ -5,6 +5,7 @@ import java.util.List;
 
 import spring.model.User;
 import spring.model.ResetToken;
+import spring.model.Request;
 
 public interface UserDAO {
 	public boolean addUser(User p);
@@ -22,5 +23,6 @@ public interface UserDAO {
 	public Date getExpiryDate(String username);
 	public String getResetToken(String username);
 	public List<User> listCaretakers(int userId);
+	public List<Request> listMatchingRequests(User r);
 	
 }

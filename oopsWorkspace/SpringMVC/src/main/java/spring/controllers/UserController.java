@@ -52,8 +52,7 @@ public class UserController {
 
 	//For add and update user both
 	@RequestMapping(value= "/user/add", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") User p)
-	{
+	public String addUser(@ModelAttribute("user") User p){
 		
 		boolean error=false;
 		System.out.println("In addUsers"+p.getUsername() +" "+ p.getPassword());
@@ -140,6 +139,8 @@ public class UserController {
     		model.addAttribute("userId",userId);
     		model.addAttribute("username",p.getUsername());
     		model.addAttribute("firstName",p.getFirstName());
+    		model.addAttribute("userType",p.getUserType());
+    		model.addAttribute("userType",p.getUsername());
     		p.setLoginTime(new Date());
     		this.userService.updateUser(p);
     		if(p.getUserType()=="Admin")
@@ -154,7 +155,11 @@ public class UserController {
     		}
     		else 
     		{
-    			
+    			model.addAttribute("petCount",this.userService.getPetCount(userId));
+           		//	System.out.println("Pet count"+this.userService.getPetCount(userId));
+    			System.out.println("Request list" +this.userService.listMatchingRequests(p) );
+    			model.addAttribute("contactInfo",this.userService.isContactInfoSet(userId));
+    			model.addAttribute("listRequest",this.userService.listMatchingRequests(p));
     			return "caretakerDashboard";
     		}
     	}
@@ -243,22 +248,30 @@ public class UserController {
   
        		int userId=u.getUserId();
        		model.addAttribute("userId",userId);
-       		model.addAttribute("username",u.getUsername());
-       		model.addAttribute("firstName",u.getFirstName());
+       		model.addAttribute("userId",userId);
+    		model.addAttribute("username",u.getUsername());
+    		model.addAttribute("firstName",u.getFirstName());
+    		model.addAttribute("userType",u.getUserType());
+    		model.addAttribute("userType",u.getUsername());
 
-       		if(u.getUserType()=="Admin")
+       		if(u.getUserType().equals("Admin"))
        		{
+       		//	System.out.println("ADMIN DASH");
        			return "adminDashboard";
        		}
        		else if((u.getUserType()).equals("Owner"))
        		{
+       		//	System.out.println("OWNER DASH");
        			model.addAttribute("petCount",this.userService.getPetCount(userId));
        			model.addAttribute("contactInfo",this.userService.isContactInfoSet(userId));
        			return "ownerDashboard";
        		}
        		else 
        		{
-       			
+       		//	System.out.println("CARE DASH");
+       			model.addAttribute("petCount",this.userService.getPetCount(userId));
+       		//	System.out.println("Pet count"+this.userService.getPetCount(userId));
+       			model.addAttribute("contactInfo",this.userService.isContactInfoSet(userId));
        			return "caretakerDashboard";
        		}
        	}

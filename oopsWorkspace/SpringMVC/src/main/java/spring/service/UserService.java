@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import spring.model.User;
+import spring.model.Request;
 import spring.model.ResetToken;
 
 public interface UserService
@@ -23,5 +24,6 @@ public interface UserService
 	public Date getExpiryDate(String username);
 	public String getResetToken(String username);
 	public List<User> listCaretakers(int userId);
+	public List<Request> listMatchingRequests(User u);
 	
 }

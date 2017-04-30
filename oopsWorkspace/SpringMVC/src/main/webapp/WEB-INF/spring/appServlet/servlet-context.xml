@@ -44,6 +44,7 @@
 				<beans:value>spring.model.ContactInfo</beans:value>
 				<beans:value>spring.model.ResetToken</beans:value>
 				<beans:value>spring.model.History</beans:value>
+				<beans:value>spring.model.Request</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -77,6 +78,13 @@
 		<beans:property name="ownerProfileDAO" ref="ownerProfileDAO"></beans:property>
 	</beans:bean>
 	
+	<beans:bean id="caretakerProfileDAO" class="spring.dao.CaretakerProfileDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="caretakerProfileService" class="spring.service.CaretakerProfileServiceImpl">
+		<beans:property name="caretakerProfileDAO" ref="caretakerProfileDAO"></beans:property>
+	</beans:bean>
 	<beans:bean id="contactInfoDAO" class="spring.dao.ContactInfoDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
@@ -93,6 +101,14 @@
 		<beans:property name="petDAO" ref="petDAO"></beans:property>
 	</beans:bean>
 	
+	  <beans:bean id="requestDAO" class="spring.dao.RequestDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    
+    <beans:bean id="requestService" class="spring.service.RequestServiceImpl">
+        <beans:property name="requestDAO" ref="requestDAO"></beans:property>
+    </beans:bean>
+    
 	<context:component-scan base-package="spring.controllers" />
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<beans:bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">

@@ -15,7 +15,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import spring.model.User;
+import spring.model.Request;
 import spring.model.ResetToken;
+import spring.model.Request;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -229,6 +231,28 @@ public class UserDAOImpl implements UserDAO {
 		return ul;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Request> listMatchingRequests(User u)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		String hql = "select petType from Pet where userId="+String.valueOf(u.getUserId());
+		
+		String hql1 = "from Request where validRequest=1 AND petType='";
+		
+		List<String> caretakerPreferences =  session.createQuery(hql).list();	//(Dog, Cat) or (Dog) or (Cat)
+		List <Request> rl = new ArrayList<Request>();
+		
+
+		for(String s:caretakerPreferences)
+		{
+			List <Request> r1 =session.createQuery(hql1+s+"'").list();
+			System.out.println("IN DAO"+r1);
+			rl.addAll(r1);
+		}
+		return rl;
+	}
 	
 	
 }
