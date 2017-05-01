@@ -90,7 +90,16 @@ public class ContactInfoDAOImpl implements ContactInfoDAO {
 		logger.info("ContactInfo deleted successfully, contactInfo details="+p);
 	}
 
-	
+	@Override
+	public int getIdFromUserId(int userId) {
+
+
+		Session session = this.sessionFactory.getCurrentSession();
+		int id = (Integer)(session.createQuery("select id from ContactInfo where userId="+
+		String.valueOf(userId)).uniqueResult());
+		
+		return id;
+	}
 	 
 	@Override
 	public boolean isRecoveryEmailAddrAvailable(ContactInfo c)

@@ -13,5 +13,5 @@ public interface PetDAO {
 	public boolean validatePet(Pet p);
 	public int getPetCount(int id);
 	public boolean isContactInfoSet(int id);
-	
+	public int getIdFromUserId(int userId);
 }

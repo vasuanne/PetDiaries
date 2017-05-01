@@ -25,6 +25,7 @@
 			
 			<form:input path="username" value="${user.username}" readonly="true" size="20"/>
 			
+			<form:input path="firstName" value="${user.firstName}" readonly="true" size="8" type="hidden"/>
 			<form:input path="userType" value="${user.userType}" readonly="true" size="8" type="hidden"/>
 			<input type="submit"	
 			value="<spring:message text="View Profile"/>" />

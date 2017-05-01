@@ -69,4 +69,11 @@ public class PetServiceImpl implements PetService {
 		return this.petDAO.isContactInfoSet(id);
 	}
 	
+	
+	@Override
+	@Transactional
+	public int getIdFromUserId(int userId)
+	{
+		return this.petDAO.getIdFromUserId(userId);
+	}
 }

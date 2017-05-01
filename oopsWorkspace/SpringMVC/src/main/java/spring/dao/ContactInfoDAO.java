@@ -15,4 +15,5 @@ public interface ContactInfoDAO {
 	public String getUsernameWithUserId(int id);
 	public void updateResetToken(ResetToken r);
 	public int resetTokenId(int userId);
+	public int getIdFromUserId(int userId);
 }

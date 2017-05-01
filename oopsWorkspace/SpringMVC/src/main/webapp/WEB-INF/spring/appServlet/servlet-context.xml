@@ -85,6 +85,15 @@
 	<beans:bean id="caretakerProfileService" class="spring.service.CaretakerProfileServiceImpl">
 		<beans:property name="caretakerProfileDAO" ref="caretakerProfileDAO"></beans:property>
 	</beans:bean>
+	
+	<beans:bean id="adminProfileDAO" class="spring.dao.AdminProfileDAOImpl">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="adminProfileService" class="spring.service.AdminProfileServiceImpl">
+		<beans:property name="adminProfileDAO" ref="adminProfileDAO"></beans:property>
+	</beans:bean>
+	
 	<beans:bean id="contactInfoDAO" class="spring.dao.ContactInfoDAOImpl">
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>

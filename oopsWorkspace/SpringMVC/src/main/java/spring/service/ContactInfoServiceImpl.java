@@ -78,4 +78,12 @@ public class ContactInfoServiceImpl implements ContactInfoService {
 	{
 		this.contactInfoDAO.updateResetToken(r);
 	}
+	
+	
+	@Override
+	@Transactional
+	public int getIdFromUserId(int userId)
+	{
+		return this.contactInfoDAO.getIdFromUserId(userId);
+	}
 }

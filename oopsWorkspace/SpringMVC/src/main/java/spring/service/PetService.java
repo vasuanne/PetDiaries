@@ -14,5 +14,6 @@ public interface PetService
 	public void removePet(int id);
 	public int getPetCount(int id);
 	public boolean isContactInfoSet(int id);
+	public int getIdFromUserId(int userId);
 	
 }

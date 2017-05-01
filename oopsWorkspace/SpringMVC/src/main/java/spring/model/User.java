@@ -43,6 +43,12 @@ public class User {
 	
 	private boolean accountLocked; 
 	
+	private boolean expiryEmailSent;
+	
+	private Date expiresOnDate;
+	
+	private Date expiryEmailSentDate;
+	
 	public void setUserId(int userId)
 	{
 		this.userId=userId;
@@ -128,6 +134,31 @@ public class User {
 
 	public void setAccountLocked(boolean accountLocked) {
 		this.accountLocked = accountLocked;
+	}
+
+	
+	public Date getExpiresOnDate() {
+		return expiresOnDate;
+	}
+
+	public void setExpiresOnDate(Date expiresOnDate) {
+		this.expiresOnDate = expiresOnDate;
+	}
+
+	public Date getExpiryEmailSentDate() {
+		return expiryEmailSentDate;
+	}
+
+	public void setExpiryEmailSentDate(Date expiryEmailSentDate) {
+		this.expiryEmailSentDate = expiryEmailSentDate;
+	}
+
+	public boolean isExpiryEmailSent() {
+		return expiryEmailSent;
+	}
+
+	public void setExpiryEmailSent(boolean expiryEmailSent) {
+		this.expiryEmailSent = expiryEmailSent;
 	}
 	
 

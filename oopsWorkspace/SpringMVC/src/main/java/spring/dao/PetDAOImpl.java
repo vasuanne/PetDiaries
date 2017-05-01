@@ -136,4 +136,13 @@ public class PetDAOImpl implements PetDAO {
 	
 	
 	
+	@Override
+	public int getIdFromUserId(int userId)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		int id = (Integer)(session.createQuery("select id from Pet where userId="+String.valueOf(userId)).uniqueResult());
+		return id;
+			
+	}
+	
 }

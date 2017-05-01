@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import spring.dao.OwnerProfileDAO;
 import spring.model.OwnerProfile;
+import spring.model.User;
 
 @Service
 public class OwnerProfileServiceImpl implements OwnerProfileService {
@@ -68,5 +69,12 @@ public class OwnerProfileServiceImpl implements OwnerProfileService {
 	{
 		return this.ownerProfileDAO.isContactInfoSet(id);
 	}
+
 	
+	@Override
+	@Transactional
+	public List<User> listCaretakers(int userId)
+	{
+		return this.ownerProfileDAO.listCaretakers(userId);
+	}
 }

@@ -1,5 +1,7 @@
 package spring.controllers;
 
+import spring.service.PetService;
+import spring.service.ContactInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,21 +9,38 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.model.Request;
+import spring.model.User;
 import spring.service.OwnerProfileService;
 
 @Controller
 public class OwnerProfileController {
 	
 	private OwnerProfileService ownerProfileService;
+	private ContactInfoService contactInfoService;
+	private PetService petService;
 	
 	@Autowired(required=true)
 	//@Qualifier(value="ownerProfileService")
 	public void setOwnerProfileService(OwnerProfileService ps){
 		System.out.println("In owner profile");
 		this.ownerProfileService = ps;
+	}
+	
+	@Autowired(required=true)
+	//@Qualifier(value="ownerProfileService")
+	public void setContactInfoService(ContactInfoService ps){
+		System.out.println("In owner profile");
+		this.contactInfoService = ps;
+	}
+	
+	@Autowired(required=true)
+	//@Qualifier(value="ownerProfileService")
+	public void setPetService(PetService ps){
+		System.out.println("In owner profile");
+		this.petService = ps;
 	}
 	
 	@RequestMapping(value = "/user/login/request/{id}/{username}/{userType}")
@@ -37,6 +56,44 @@ public class OwnerProfileController {
 	   // return "redirect:/request";
 		return "request";
 	}
+	
+	@RequestMapping(value = "/user/suggestedCaretakers", method = RequestMethod.GET)
+	public String listPets(Model model,@RequestParam("userId") int userId, 
+			@RequestParam("firstName") String firstName ) {
+	
+		System.out.println("In suggested caretakers");
+		model.addAttribute("userId",userId);
+		model.addAttribute("firstName",firstName);
+		model.addAttribute("user",new User());
+		model.addAttribute("listCaretakers", this.ownerProfileService.listCaretakers(userId));
+
+		return "suggestedCaretakers";
+	}
+	
+	@RequestMapping(value = "/user/listCaretakers", method = RequestMethod.POST)
+	public String listCaretakers(Model model,
+			@ModelAttribute("user") User p,
+			@RequestParam("userId") int userId,
+			@RequestParam("username") String username,
+			@RequestParam("userType") String userType,
+			@RequestParam("firstName") String firstName
+			) {
+	
+		int contactInfoId=this.contactInfoService.getIdFromUserId(userId);
+		
+		System.out.println("In list caretakers ");
+		model.addAttribute("userId",userId);
+		
+		model.addAttribute("firstName",firstName);
+		model.addAttribute("listContact",this.contactInfoService.getContactInfoById(contactInfoId));
+		model.addAttribute("listPetPreferences",this.petService.listPets(userId));
+		
+		
+		/*FActory pattern comes here*/
+		return "profile";
+	}
+	
+	
 	//@PathVariable("Name") String name,
 	/*@RequestMapping(value = "/user/pet", method = RequestMethod.GET)
 	public String listOwnerProfiles(Model model) {

@@ -1,5 +1,6 @@
 package spring.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import spring.model.OwnerProfile;
+import spring.model.User;
 
 @Repository
 public class OwnerProfileDAOImpl implements OwnerProfileDAO {
@@ -118,6 +120,30 @@ public class OwnerProfileDAOImpl implements OwnerProfileDAO {
 			
 	}
 	
+	@Override
+	public User getUserById(int id) {
+		Session session = this.sessionFactory.getCurrentSession();		
+		User p = (User) session.load(User.class, new Integer(id));
+		logger.info("User loaded successfully, User details="+p);
+		return p;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> listCaretakers(int userId)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		String hql = "select caretakerId from History where ownerId="+String.valueOf(userId);
+		List<Integer> caretakerIdList=  session.createQuery(hql).list();
+		List<User> ul=new ArrayList<User>();
+		for(int i:caretakerIdList)
+		{
+			User u=getUserById(i);
+			ul.add(u);
+		}
+		return ul;
+	}
+
 	
 	
 }

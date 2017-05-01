@@ -57,7 +57,9 @@
 <c:if test="${contactInfo && petCount>0}">
 	<tr>
 		
-       	<td><form:form method = "GET" action="${suggestedCaretakers}" commandName="user"><input name="userId" value="${userId}" type="hidden"/>
+       	<td><form:form method = "GET" action="${suggestedCaretakers}" commandName="user">
+       	<input name="userId" value="${userId}" type="hidden"/>
+       	<input name="firstName" value="${firstName}" type="hidden"/>
         <input type="submit" value="Suggested Caretakers"/>
         </form:form>
       
